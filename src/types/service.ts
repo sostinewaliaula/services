@@ -1,19 +1,56 @@
-export type ServiceCategory = 'Databases' | 'Application Servers' | 'HR Systems' | 'Asset Management' | 'Ticketing Systems' | 'Task Trackers' | 'Infrastructure';
-export type ServiceStatus = 'Active' | 'Maintenance' | 'Deprecated';
+export interface ServiceCategoryData {
+  id: string;
+  name: string;
+}
+
+export interface ServiceTypeData {
+  id: string;
+  name: string;
+}
+
+export interface EnvironmentData {
+  id: string;
+  name: string;
+}
+
+export interface TeamData {
+  id: string;
+  name: string;
+}
+
+export interface Tag {
+  id: string;
+  name: string;
+}
+
+export type ServiceCategory = string;
+export type ServiceStatus = 'Active' | 'Maintenance' | 'Deprecated' | 'Online' | 'Offline';
 export type ServiceEnvironment = 'Production' | 'Test' | 'Dev';
+
 export interface Service {
   id: string;
   name: string;
-  description: string;
   category: ServiceCategory;
+  category_id?: string;
+  service_type_id?: string;
+  serviceTypeName?: string;
   status: ServiceStatus;
   environment: ServiceEnvironment;
-  url?: string;
+  environment_id?: string;
+  url: string;
+  ip_address?: string;
+  port?: number;
   owner: string;
   team: string;
+  team_id?: string;
   notes?: string;
   isFeatured: boolean;
   lastUpdated: string;
   documentation?: string;
   dashboard?: string;
+  db_connection?: string;
+  db_username?: string;
+  service_username?: string;
+  service_password?: string;
+  tags?: Tag[];
 }

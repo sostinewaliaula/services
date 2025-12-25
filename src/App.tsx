@@ -1,5 +1,14 @@
-import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Dashboard } from './pages/Dashboard';
+import { ManageServices } from './pages/ManageServices';
+
 export function App() {
-  return <Dashboard />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/manage" element={<ManageServices />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }

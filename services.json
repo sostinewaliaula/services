@@ -1,0 +1,1179 @@
+[
+  {
+    "name": "User Management",
+    "url": "http://users.internal.services",
+    "category": "default",
+    "ip": "10.176.18.5",
+    "icon": ""
+  },
+  {
+    "name": "IT Helpdesk",
+    "url": "http://10.176.18.105:8080",
+    "category": "featured",
+    "ip": "10.176.18.105",
+    "icon": "data:image/png;base64,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"
+  },
+  {
+    "name": "Confluence",
+    "url": "http://confluence.internal.services",
+    "category": "default",
+    "ip": "10.176.18.7",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/confluence.svg"
+  },
+  {
+    "name": "Slack",
+    "url": "http://slack.internal.services",
+    "category": "default",
+    "ip": "10.176.18.8",
+    "icon": ""
+  },
+  {
+    "name": "Email",
+    "url": "http://mail.internal.services",
+    "category": "email-server",
+    "ip": "10.176.18.9",
+    "icon": ""
+  },
+  {
+    "name": "Calendar",
+    "url": "http://calendar.internal.services",
+    "category": "calendar-server",
+    "ip": "10.176.18.10",
+    "icon": ""
+  },
+  {
+    "name": "GitLab",
+    "url": "http://gitlab.internal.services",
+    "category": "gitlab-server",
+    "ip": "10.176.18.12",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gitlab.svg"
+  },
+  {
+    "name": "Artifactory",
+    "url": "http://artifacts.internal.services",
+    "category": "artifactory-server",
+    "ip": "10.176.18.13",
+    "icon": ""
+  },
+  {
+    "name": "Jira",
+    "url": "http://jira.internal.services",
+    "category": "featured",
+    "ip": "10.176.18.14",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/jira.svg"
+  },
+  {
+    "name": "Swagger API Docs",
+    "url": "http://api-docs.internal.services",
+    "category": "jira-server",
+    "ip": "10.176.18.14",
+    "icon": ""
+  },
+  {
+    "name": "Knowledge Base",
+    "url": "http://kb.internal.services",
+    "category": "knowledge-base-server",
+    "ip": "10.176.18.16",
+    "icon": ""
+  },
+  {
+    "name": "OS Ticket",
+    "url": "http://tickets.internal.services:8080",
+    "category": "ticket-system-server",
+    "ip": "10.176.18.17",
+    "icon": ""
+  },
+  {
+    "name": "Remote Desktop",
+    "url": "http://rdp.internal.services",
+    "category": "remote-desktop-server",
+    "ip": "10.176.18.19",
+    "icon": ""
+  },
+  {
+    "name": "Jenkins",
+    "url": "http://10.176.18.26:8080",
+    "category": "featured",
+    "ip": "10.176.18.26",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/jenkins.svg"
+  },
+  {
+    "name": "Gerrit",
+    "url": "http://gerrit.internal.services",
+    "category": "gerrit-server",
+    "ip": "10.176.18.27",
+    "icon": ""
+  },
+  {
+    "name": "VPN Portal",
+    "url": "http://vpn.internal.services",
+    "category": "vpn-server",
+    "ip": "10.176.18.69",
+    "icon": ""
+  },
+  {
+    "name": "v6 API Server",
+    "url": "http://10.176.18.73:221",
+    "category": "v6-api-server",
+    "ip": "10.176.18.73",
+    "icon": ""
+  },
+  {
+    "name": "Turnkey API",
+    "url": "http://turnkeyapi.internal.services",
+    "category": "turnkey-api-server",
+    "ip": "10.176.18.105",
+    "icon": ""
+  },
+  {
+    "name": "SCP",
+    "url": "http://10.176.18.105:8080/scp/login.php",
+    "category": "turnkey-api-server",
+    "ip": "10.176.18.105",
+    "icon": ""
+  },
+  {
+    "name": "TQ FMS",
+    "url": "http://10.176.18.130:9002/FMS/",
+    "category": "weblogic-server-vm130",
+    "ip": "10.176.18.130",
+    "icon": ""
+  },
+  {
+    "name": "TQ LMS-GRP",
+    "url": "http://10.176.18.130:9002/LMSGroup",
+    "category": "weblogic-server-vm130",
+    "ip": "10.176.18.130",
+    "icon": ""
+  },
+  {
+    "name": "TQ LMS-ORD",
+    "url": "http://10.176.18.130:9002/LMSV4",
+    "category": "weblogic-server-vm130",
+    "ip": "10.176.18.130",
+    "icon": ""
+  },
+  {
+    "name": "Swico CRM",
+    "url": "http://10.176.18.130:9002/SWICO-CRM",
+    "category": "weblogic-server-vm130",
+    "ip": "10.176.18.130",
+    "icon": ""
+  },
+  {
+    "name": "Heritage FMS",
+    "url": "http://10.176.18.35:7008/FMS",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": "",
+    "displayUrl": "heritagefms7008-dot35.internal.services"
+  },
+  {
+    "name": "Heritage FMS2",
+    "url": "http://10.176.18.35:7008/TQFMS/",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": "",
+    "displayUrl": "heritagefms27008-dot35.internal.services"
+  },
+  {
+    "name": "Geminia Life Insurance",
+    "url": "http://10.176.18.35:7008/GEMINIA_LMS12C-GRP/",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": "",
+    "displayUrl": "geminialmsdot35.internal.services"
+  },
+  {
+    "name": "Geminia Insurance HRMS",
+    "url": "http://10.176.18.35:7008/HRMS/",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": "",
+    "displayUrl": "geminiahrms7008-dot35.internal.services"
+  },
+  {
+    "name": "Geminia Employee Self Service",
+    "url": "http://10.176.18.35:7008/HRMS_SS/",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "Geminia Life LMS ORD",
+    "url": "http://10.176.18.35:7008/LMSV4",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "Allianz CRM",
+    "url": "http://10.176.18.35:8001/CRM-ALLIANZ/",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": "",
+    "displayUrl": "allianzcrm8001-dot35.internal.services"
+  },
+  {
+    "name": "Geminia Insurance HRMS",
+    "url": "http://10.176.18.35:8001/HRMS",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "Geminia Insurance CRM",
+    "url": "http://10.176.18.35:8001/GEMINIACRM",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": "",
+    "displayUrl": "geminiacrm8001-dot35.internal.services"
+  },
+  {
+    "name": "Allianz LMS ORD",
+    "url": "http://10.176.18.35:8001/LMSV4",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": "",
+    "displayUrl": "allianzlms8001-dot35.internal.services"
+  },
+  {
+    "name": "Sanlam Allianz Group Life",
+    "url": "http://10.176.18.35:8001/LMS-ALLIANZ-GRP",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": "",
+    "displayUrl": "allianzlmsgrp8001-dot35.internal.services"
+  },
+  {
+    "name": "Geminia GIS",
+    "url": "http://10.176.18.35:8001/TQGIS",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": "",
+    "displayUrl": "geminiagis8001-dot35.internal.services"
+  },
+  {
+    "name": "AIICO Insurance ORD",
+    "url": "http://10.176.18.35:6001/LMS_AIICO_IND-INDV4/",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "AIICO Insurance GRP",
+    "url": "http://10.176.18.35:6001/AIICO-LMS-GRP",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "AIICO FMS",
+    "url": "http://10.176.18.35:6001/FMS",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "AIICO GIS",
+    "url": "http://10.176.18.35:6001/GIS-AICCO/",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "AIICO LMS-IND",
+    "url": "http://10.176.18.35:6001/LMS_AIICO_IND-LMSV4",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "Mutual Office FMS2",
+    "url": "http://10.176.18.35:8006/TQFMS/",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "Mutual Office GRP",
+    "url": "http://10.176.18.35:8006/MUTUAL-LMS-OFFICE-GRP/",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "Tunquest FMS",
+    "url": "http://10.176.18.35:8006/FMS/",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "TQ-LMS-ORD",
+    "url": "http://10.176.18.35:8006/LMSV4",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "Lifeco CRM",
+    "url": "http://10.176.18.35:8006/LIFECO_CRM12C",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "Zenith GIS",
+    "url": "http://10.176.18.35:8006/TQGIS",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "GA-Life LMS-GRP",
+    "url": "http://10.176.18.35:2001/GALIFE12C-LMS-GRP/",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "APA General FMS",
+    "url": "http://10.176.18.35:7001/FMS",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "GA21C LMS-ORD",
+    "url": "http://10.176.18.35:2001/LMSV4/",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "GA Life LMS-GRP",
+    "url": "http://10.176.18.35:2001/LMS-ALLIANZ-GRP",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "NBK Banca",
+    "url": "http://10.176.18.35:2001/NBK-12c",
+    "category": "weblogic-server-vm35",
+    "ip": "10.176.18.35",
+    "icon": ""
+  },
+  {
+    "name": "Custodian FMS",
+    "url": "http://10.176.18.70:8004/FMS/",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": "",
+    "displayUrl": "custodianfms8004-dot70.internal.services"
+  },
+  {
+    "name": "Custodian FMS2",
+    "url": "http://10.176.18.70:8004/TQFMS/",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": "",
+    "displayUrl": "custodianfms28004-dot70.internal.services"
+  },
+  {
+    "name": "Swico FMS",
+    "url": "http://10.176.18.70:7014/FMS",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": "",
+    "displayUrl": "swicofms7014-dot70.internal.services"
+  },
+  {
+    "name": "Leadway Assurance GIS",
+    "url": "http://10.176.18.70:7014/TQGIS",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": "",
+    "displayUrl": "leadwaygis7014-dot70.internal.services"
+  },
+  {
+    "name": "Swico Insurance FMS",
+    "url": "http://10.176.18.70:7014/TQFMS",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": "",
+    "displayUrl": "swicofms27014-dot70.internal.services"
+  },
+  {
+    "name": "ABSAUG Banca",
+    "url": "http://10.176.18.70:7005/BBKUG/",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "Cannon CRM",
+    "url": "http://10.176.18.70:7005/CRMCANNON",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "Fidelity CRM",
+    "url": "http://10.176.18.70:7005/CRMFID",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "MLIFE CRM",
+    "url": "http://10.176.18.70:7005/CRMMLIFE",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "MLIFE Test FMS",
+    "url": "http://10.176.18.70:7005/FMS",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "Barclays UG LMS",
+    "url": "http://10.176.18.70:7005/LMSV4/",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "MLIFE FMS",
+    "url": "http://10.176.18.70:7005/TQFMS",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "TQ LMS-GRP",
+    "url": "http://10.176.18.70:7005/LMSGroup",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "TQ GIS Test",
+    "url": "http://10.176.18.70:7005/TQGISTEST/",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "SWICO-CRM",
+    "url": "http://10.176.18.70:7005/SWICO-CRM",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "TQ FMS",
+    "url": "http://10.176.18.70:7010/FMS/",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "ABSA Zambia",
+    "url": "http://10.176.18.70:6059/BBZAMBIA",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "Heritage CRM",
+    "url": "http://10.176.18.70:6059/CRM-HERITAGE",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "ABSAUG CRM",
+    "url": "http://10.176.18.70:6059/CRMBBZ",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "Heritage FMS",
+    "url": "http://10.176.18.70:6059/FMS",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "Heritage FMS2",
+    "url": "http://10.176.18.70:6059/TQFMS/",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "TQ GIS",
+    "url": "http://10.176.18.70:6059/GISPROD",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "Heritage CRM Test",
+    "url": "http://10.176.18.70:6059/TQCRMTST",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "Heritage GIS",
+    "url": "http://10.176.18.70:6059/TQGIS",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "ABSA Kenya FMS",
+    "url": "http://10.176.18.70:7011/FMS",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "EAUL FMS",
+    "url": "http://10.176.18.70:6015/FMS",
+    "category": "weblogic-server-vm70",
+    "ip": "10.176.18.70",
+    "icon": ""
+  },
+  {
+    "name": "Liberty FMS",
+    "url": "http://10.176.18.97:7001/FMS",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": "",
+    "displayUrl": "libertyfms7001-dot97.internal.services"
+  },
+  {
+    "name": "Liberty FMS2",
+    "url": "http://10.176.18.97:7001/TQFMS/",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": "",
+    "displayUrl": "libertyfms27001-dot97.internal.services"
+  },
+  {
+    "name": "APA Life LMS-ORD",
+    "url": "http://10.176.18.97:7001/LMSV4",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": "",
+    "displayUrl": "apalifelms7001-dot97.internal.services"
+  },
+  {
+    "name": "APALIFE-LMS-GRP",
+    "url": "http://10.176.18.97:7001/APALIFE-LMS-GRP",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": ""
+  },
+  {
+    "name": "TQ Banca",
+    "url": "http://10.176.18.97:7001/ABSA-K/",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": ""
+  },
+  {
+    "name": "Heritage CRM",
+    "url": "http://10.176.18.97:8005/CRM-HERITAGE12C",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": "",
+    "displayUrl": "heritagecrm8005-dot97.internal.services"
+  },
+  {
+    "name": "TQ GIS",
+    "url": "http://10.176.18.97:8005/BROKERAGE/",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": ""
+  },
+  {
+    "name": "TQ CRM",
+    "url": "http://10.176.18.97:8005/CRM-GEMINIA12C",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": ""
+  },
+  {
+    "name": "Allianz GIS",
+    "url": "http://10.176.18.97:8005/GIS-ALLIANZ",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": "",
+    "displayUrl": "allianzgis8005-dot97.internal.services"
+  },
+  {
+    "name": "Allianz FMS",
+    "url": "http://10.176.18.97:8005/FMS",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": "",
+    "displayUrl": "allianzfms8005-dot97.internal.services"
+  },
+  {
+    "name": "Allianz FMS2",
+    "url": "http://10.176.18.97:8005/TQFMS/",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": "",
+    "displayUrl": "allianzfms28005-dot97.internal.services"
+  },
+  {
+    "name": "TQ Claims Mgt System",
+    "url": "http://10.176.18.97:8005/KCB-12c",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": ""
+  },
+  {
+    "name": "KCB CRM",
+    "url": "http://10.176.18.97:8005/KCB-CRM",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": "",
+    "displayUrl": "kcbcrm8005-dot97.internal.services"
+  },
+  {
+    "name": "TQ-LMS-ORD",
+    "url": "http://10.176.18.97:8005/LMSV4",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": ""
+  },
+  {
+    "name": "TQ GRP",
+    "url": "http://10.176.18.97:8005/LMS-ALLIANZ-GRP",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": ""
+  },
+  {
+    "name": "AIICO LMS-ORD",
+    "url": "http://10.176.18.97:8005/LMS_AIICO-INDV4",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": "",
+    "displayUrl": "aiicolms8005-dot97.internal.services"
+  },
+  {
+    "name": "Heritage GIS",
+    "url": "http://10.176.18.97:8005/GISTQUEST/",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": "",
+    "displayUrl": "heritagegis8005-dot97.internal.services"
+  },
+  {
+    "name": "Smile Life FMS",
+    "url": "http://10.176.18.97:9001/FMS",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": ""
+  },
+  {
+    "name": "Smile Life CRM",
+    "url": "http://10.176.18.97:9001/CRM-SMILELIFE",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": ""
+  },
+  {
+    "name": "Smile LMS-ORD",
+    "url": "http://10.176.18.97:9001/LMSV4",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": ""
+  },
+  {
+    "name": "Smile LMS-GRP",
+    "url": "http://10.176.18.97:9001/SMILELIFE-LMS-GRP",
+    "category": "weblogic-server-vm97",
+    "ip": "10.176.18.97",
+    "icon": ""
+  },
+  {
+    "name": "Mutual CRM",
+    "url": "http://10.176.18.98:9001/CRM-MUTUAL",
+    "category": "weblogic-server-vm98",
+    "ip": "10.176.18.98",
+    "icon": ""
+  },
+  {
+    "name": "NBK FMS",
+    "url": "http://10.176.18.98:9001/FMS",
+    "category": "weblogic-server-vm98",
+    "ip": "10.176.18.98",
+    "icon": ""
+  },
+  {
+    "name": "AIICO GIS",
+    "url": "http://10.176.18.98:9001/GIS-AICCO",
+    "category": "weblogic-server-vm98",
+    "ip": "10.176.18.98",
+    "icon": ""
+  },
+  {
+    "name": "Mutual LMS-ORD",
+    "url": "http://10.176.18.98:9001/LMSV4",
+    "category": "weblogic-server-vm98",
+    "ip": "10.176.18.98",
+    "icon": ""
+  },
+  {
+    "name": "Star Discover LMS-GRP",
+    "url": "http://10.176.18.98:9001/LMSGroup",
+    "category": "weblogic-server-vm98",
+    "ip": "10.176.18.98",
+    "icon": ""
+  },
+  {
+    "name": "Mutual GIS",
+    "url": "http://10.176.18.98:9001/TQGIS",
+    "category": "weblogic-server-vm98",
+    "ip": "10.176.18.98",
+    "icon": ""
+  },
+  {
+    "name": "Zenith FMS",
+    "url": "http://10.176.18.98:8002/FMS",
+    "category": "weblogic-server-vm98",
+    "ip": "10.176.18.98",
+    "icon": ""
+  },
+  {
+    "name": "Zenith FMS2",
+    "url": "http://10.176.18.98:8002/TQFMS",
+    "category": "weblogic-server-vm98",
+    "ip": "10.176.18.98",
+    "icon": ""
+  },
+  {
+    "name": "GIFT CRM",
+    "url": "http://10.176.18.98:8002/GIFTCRM",
+    "category": "weblogic-server-vm98",
+    "ip": "10.176.18.98",
+    "icon": ""
+  },
+  {
+    "name": "Zenith CRM",
+    "url": "http://10.176.18.98:8002/ZENITH-CRM-12C",
+    "category": "weblogic-server-vm98",
+    "ip": "10.176.18.98",
+    "icon": ""
+  },
+  {
+    "name": "Lifeco LMS-GRP",
+    "url": "http://10.176.18.103:8099/LMSGroup",
+    "category": "weblogic-server-vm103",
+    "ip": "10.176.18.103",
+    "icon": ""
+  },
+  {
+    "name": "Lifeco LMS-ORD",
+    "url": "http://10.176.18.103:8099/LMSV4",
+    "category": "weblogic-server-vm103",
+    "ip": "10.176.18.103",
+    "icon": ""
+  },
+  {
+    "name": "APA Insurance GIS",
+    "url": "http://10.176.18.140:7001/TQGIS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "Star Discover CRM",
+    "url": "http://10.176.18.140:7001/CRM-STARDISCOVERY",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "Star Discover FMS",
+    "url": "http://10.176.18.140:7001/FMS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "Star Discover FMS2",
+    "url": "http://10.176.18.140:7001/TQFMS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "Star Life LMS-ORD",
+    "url": "http://10.176.18.140:7001/LMSV4",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "ABSAUG FMS",
+    "url": "http://10.176.18.140:4001/FMS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "ABSAUG CRM",
+    "url": "http://10.176.18.140:4001/CRM-ABSAUG12C",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "MUTUAL CRM",
+    "url": "http://10.176.18.140:4001/CRM-MUTUAL",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "GA Life CRM",
+    "url": "http://10.176.18.140:4001/GALIFE12C-CRM",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "ABSAUG GIS",
+    "url": "http://10.176.18.140:4001/GIS-ABSAUG12C",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "TQ LMS-ORD",
+    "url": "http://10.176.18.140:4001/LMSV4",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "TQ GIS",
+    "url": "http://10.176.18.140:4001/TQGIS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "APA CRM",
+    "url": "http://10.176.18.140:9001/APA12C-CRM",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "APA Life CRM",
+    "url": "http://10.176.18.140:9001/APALIFE12C-CRM",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "TQ CRM HANNAH",
+    "url": "http://10.176.18.140:9001/CRM-Hannah",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "APA Life Test FMS",
+    "url": "http://10.176.18.140:9001/FMS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "TQ GIS HANNAH",
+    "url": "http://10.176.18.140:9001/TQGIS_HANNAH",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "AIICO CRM",
+    "url": "http://10.176.18.140:2001/CRM-AIICO",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "Star Life FMS",
+    "url": "http://10.176.18.140:2001/FMS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "KQ CRM",
+    "url": "http://10.176.18.140:2001/KQ-CRM",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "KQ GIS",
+    "url": "http://10.176.18.140:2001/KQ-GIS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "Prudential LMS-ORD",
+    "url": "http://10.176.18.140:2001/LMS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "Star Discover GIS",
+    "url": "http://10.176.18.140:2001/TQGIS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "APA FMS",
+    "url": "http://10.176.18.140:5001/FMS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "Liberty CRM",
+    "url": "http://10.176.18.140:5001/TQCRM",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "Liberty GIS",
+    "url": "http://10.176.18.140:5001/TQGIS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "MUTUAL-FMS",
+    "url": "http://10.176.18.140:6001/FMS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "GA Life FMS2",
+    "url": "http://10.176.18.140:6001/TQFMS",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "Lifeco LMS-GRP",
+    "url": "http://10.176.18.140:6001/LIFECO_LMS12C-GRP",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "Lifeco Test LMS",
+    "url": "http://10.176.18.140:6001/LMSV4",
+    "category": "weblogic-server-vm140",
+    "ip": "10.176.18.140",
+    "icon": ""
+  },
+  {
+    "name": "Jira Test",
+    "url": "http://jiratest.turnkey.local",
+    "category": "jira-test-server",
+    "ip": "10.176.18.93",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/jira.svg"
+  },
+  {
+    "name": "Zimbra Email",
+    "url": "http://zimbra.turnkey.local",
+    "category": "zimbra-email-server",
+    "ip": "10.176.18.143",
+    "icon": ""
+  },
+  {
+    "name": "Jenkins 2",
+    "url": "http://jenkins.turnkey.local:8080",
+    "category": "jenkins-server-2",
+    "ip": "10.176.18.55",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/jenkins.svg"
+  },
+  {
+    "name": "test",
+    "url": "sffds",
+    "category": "oracle-database",
+    "ip": "sfd",
+    "icon": "",
+    "displayUrl": ""
+  },
+  {
+    "name": "test222",
+    "url": "http://dns.turnkey.local",
+    "category": "default",
+    "ip": "as",
+    "icon": "",
+    "displayUrl": ""
+  },
+  {
+    "name": "Assets",
+    "url": "http://it.internal.services:5000/",
+    "category": "oracle-database",
+    "ip": "10.176.18.41",
+    "icon": "",
+    "displayUrl": "http://it.internal.services:5000/"
+  },
+  {
+    "name": "FMS 1",
+    "url": "http://10.176.18.130:9001/FMS",
+    "category": "weblogic-server-vm130",
+    "ip": "10.176.18.130",
+    "icon": "",
+    "displayUrl": ""
+  },
+  {
+    "name": "FMS 2",
+    "url": "http://10.176.18.130:9001/TQFMS",
+    "category": "weblogic-server-vm130",
+    "ip": "10.176.18.130",
+    "icon": "",
+    "displayUrl": ""
+  },
+  {
+    "name": "KENINDIA-CRM",
+    "url": "http://10.176.18.130:9001/KENINDIA-CRM",
+    "category": "weblogic-server-vm130",
+    "ip": "10.176.18.130",
+    "icon": "",
+    "displayUrl": ""
+  },
+  {
+    "name": "LMSV4",
+    "url": "http://10.176.18.130:9001/LMSV4",
+    "category": "weblogic-server-vm130",
+    "ip": "10.176.18.130",
+    "icon": "",
+    "displayUrl": ""
+  },
+  {
+    "name": "LMS Group",
+    "url": "http://10.176.18.130:9001/LMSGroup",
+    "category": "weblogic-server-vm130",
+    "ip": "10.176.18.130",
+    "icon": "",
+    "displayUrl": ""
+  },
+  {
+    "name": "MADISON-GIS",
+    "url": "http://10.176.18.130:8002/MADISON-GIS",
+    "category": "weblogic-server-vm130",
+    "ip": "10.176.18.130",
+    "icon": "",
+    "displayUrl": ""
+  },
+  {
+    "name": "DEMO1",
+    "url": "10.176.18.139:1521/cdb2",
+    "category": "oracle-database",
+    "ip": "10.176.18.139",
+    "icon": "",
+    "displayUrl": "Oracle 12C Database"
+  },
+  {
+    "name": "GEMINIAPORTALS_TEST",
+    "url": "10.176.18.139:1521/cdb2",
+    "category": "oracle-database",
+    "ip": "10.176.18.139",
+    "icon": "",
+    "displayUrl": "Oracle 12C Database"
+  },
+  {
+    "name": "LIFECO_INT",
+    "url": "10.176.18.139:1521/cdb2",
+    "category": "oracle-database",
+    "ip": "10.176.18.139",
+    "icon": "",
+    "displayUrl": "Oracle 12C Database"
+  },
+  {
+    "name": "DEMO2",
+    "url": "10.176.18.139:1521/cdb2",
+    "category": "oracle-database",
+    "ip": "10.176.18.139",
+    "icon": "",
+    "displayUrl": "Oracle 12C Database"
+  },
+  {
+    "name": "HERITAGE_PORTALS",
+    "url": "10.176.18.139:1521/cdb2",
+    "category": "oracle-database",
+    "ip": "10.176.18.139",
+    "icon": "",
+    "displayUrl": "Oracle 12C Database"
+  },
+  {
+    "name": "FMS4V6",
+    "url": "10.176.18.139:1521/cdb2",
+    "category": "oracle-database",
+    "ip": "10.176.18.139",
+    "icon": "",
+    "displayUrl": "Oracle 12C Database"
+  },
+  {
+    "name": "CRMDEMO",
+    "url": "10.176.18.139:1521/orcl",
+    "category": "oracle-database",
+    "ip": "10.176.18.139",
+    "icon": "",
+    "displayUrl": "Oracle 12C Database"
+  },
+  {
+    "name": "PORTALSABSA",
+    "url": "10.176.18.70:1521/PORTALSABSA",
+    "category": "oracle-database",
+    "ip": "10.176.18.70",
+    "icon": "",
+    "displayUrl": "Oracle 12C Database  : docker exec -it 6c5510624ca6 bash"
+  },
+  {
+    "name": "swico-server",
+    "url": "10.176.18.70:1521/swico-server",
+    "category": "oracle-database",
+    "ip": "10.176.18.70",
+    "icon": "",
+    "displayUrl": "Oracle 12C Database : docker exec -it 5c68ec370e8f bash"
+  },
+  {
+    "name": "devs-server",
+    "url": "10.176.18.70:1521/devs-server",
+    "category": "oracle-database",
+    "ip": "10.176.18.70",
+    "icon": "",
+    "displayUrl": "Oracle 12C Database : docker exec -it 216310e18847 bash"
+  }
+]
