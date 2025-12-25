@@ -1,23 +1,26 @@
-import { Search, X } from 'lucide-react';
+import { Search, X, RotateCw } from 'lucide-react';
 import { Select } from './ui/Select';
-import { ServiceCategory, ServiceEnvironment } from '../types/service';
+import { ServiceCategory } from '../types/service';
 import { Button } from './ui/Button';
 
 interface FilterPanelProps {
   category: ServiceCategory | 'All';
   type: string | 'All';
-  environment: ServiceEnvironment | 'All';
+  environment: string | 'All';
   showFeaturedOnly: boolean;
   onCategoryChange: (category: ServiceCategory | 'All') => void;
   onTypeChange: (type: string) => void;
-  onEnvironmentChange: (env: ServiceEnvironment | 'All') => void;
+  onEnvironmentChange: (env: string | 'All') => void;
   onFeaturedChange: (featured: boolean) => void;
   onClearFilters: () => void;
   totalResults: number;
   categories: string[];
   serviceTypes: string[];
+  environments: string[];
   searchTerm: string;
   onSearchChange: (value: string) => void;
+  onRefresh: () => void;
+  isLoading?: boolean;
 }
 
 export function FilterPanel({
@@ -33,8 +36,11 @@ export function FilterPanel({
   totalResults,
   categories,
   serviceTypes,
+  environments,
   searchTerm,
-  onSearchChange
+  onSearchChange,
+  onRefresh,
+  isLoading
 }: FilterPanelProps) {
   const hasActiveFilters = category !== 'All' || type !== 'All' || environment !== 'All' || showFeaturedOnly || searchTerm !== '';
 
@@ -90,14 +96,16 @@ export function FilterPanel({
             <div className="min-w-[130px]">
               <Select
                 value={environment}
-                onChange={(e) => onEnvironmentChange(e.target.value as ServiceEnvironment | 'All')}
+                onChange={(e) => onEnvironmentChange(e.target.value as string | 'All')}
                 aria-label="Filter by environment"
                 className="h-9 text-xs"
               >
                 <option value="All">All Envs</option>
-                <option value="Production">Production</option>
-                <option value="Test">Test</option>
-                <option value="Dev">Dev</option>
+                {environments.map((env) => (
+                  <option key={env} value={env}>
+                    {env}
+                  </option>
+                ))}
               </Select>
             </div>
 
@@ -116,6 +124,17 @@ export function FilterPanel({
             <span className="hidden lg:inline text-xs text-slate-500 font-medium">
               {totalResults} {totalResults === 1 ? 'result' : 'results'}
             </span>
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onRefresh}
+              className="h-8 w-8 p-0"
+              title="Refresh Data"
+              disabled={isLoading}
+            >
+              <RotateCw className={`h-3.5 w-3.5 text-slate-500 ${isLoading ? 'animate-spin' : ''}`} />
+            </Button>
 
             {hasActiveFilters && (
               <Button

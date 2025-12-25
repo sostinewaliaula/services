@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Service } from '../types/service';
 import { Card } from './ui/Card';
 import { Badge } from './ui/Badge';
-import { Database, Server, Users, Package, Ticket, CheckSquare, Globe, Hash, Link as LinkIcon, Copy, Check, ExternalLink, Key, Tag } from 'lucide-react';
+import { Database, Server, Users, Package, Ticket, CheckSquare, Globe, Hash, Link as LinkIcon, Copy, Check, ExternalLink, Key, Tag, Download } from 'lucide-react';
+import { downloadServiceDetails } from '../utils/downloadService';
 
 interface ServiceCardProps {
   service: Service;
@@ -26,22 +27,27 @@ export function ServiceCard({ service, onClick }: ServiceCardProps) {
     e.stopPropagation();
   };
 
+  const handleDownload = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    downloadServiceDetails(service);
+  };
+
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'Databases':
-        return <Database className="h-5 w-5 text-blue-500" />;
+        return <Database className="h-4 w-4 text-blue-500" />;
       case 'Application Servers':
-        return <Server className="h-5 w-5 text-indigo-500" />;
+        return <Server className="h-4 w-4 text-indigo-500" />;
       case 'HR Systems':
-        return <Users className="h-5 w-5 text-pink-500" />;
+        return <Users className="h-4 w-4 text-pink-500" />;
       case 'Asset Management':
-        return <Package className="h-5 w-5 text-orange-500" />;
+        return <Package className="h-4 w-4 text-orange-500" />;
       case 'Ticketing Systems':
-        return <Ticket className="h-5 w-5 text-purple-500" />;
+        return <Ticket className="h-4 w-4 text-purple-500" />;
       case 'Task Trackers':
-        return <CheckSquare className="h-5 w-5 text-green-500" />;
+        return <CheckSquare className="h-4 w-4 text-green-500" />;
       default:
-        return <div className="h-5 w-5 text-slate-500" />;
+        return <div className="h-4 w-4 text-slate-500" />;
     }
   };
 
@@ -75,33 +81,37 @@ export function ServiceCard({ service, onClick }: ServiceCardProps) {
 
   return (
     <Card hoverEffect={true} onClick={() => onClick(service)} className="h-full flex flex-col group">
-      <div className="p-5 flex flex-col h-full">
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-slate-50 rounded-lg border border-slate-100">{getCategoryIcon(service.category)}</div>
+      <div className="p-4 flex flex-col h-full">
+        <div className="flex items-start justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 bg-slate-50 rounded-lg border border-slate-100">{getCategoryIcon(service.category)}</div>
             <div className="flex flex-col">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{service.category}</span>
-              <span className="text-xs font-bold text-blue-600 flex items-center gap-1">
+              <span className="text-[11px] font-bold text-blue-600 flex items-center gap-1">
                 <Tag className="h-3 w-3" /> {service.serviceTypeName || 'Generic'}
               </span>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-1.5">
             {service.isFeatured && <Badge variant="warning" className="shadow-sm">Featured</Badge>}
-            <Badge variant={getStatusVariant(service.status)}>{service.status}</Badge>
+            {service.url ? (
+              <Badge variant={getStatusVariant(service.status)}>{service.status}</Badge>
+            ) : (
+              <Badge variant="neutral">No URL</Badge>
+            )}
           </div>
         </div>
 
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-slate-900 mb-3 line-clamp-1 group-hover:text-blue-600 transition-colors">
+          <h3 className="text-base font-semibold text-slate-900 mb-2 line-clamp-1 group-hover:text-blue-600 transition-colors">
             {service.name}
           </h3>
 
-          <div className="space-y-2 mb-4">
-            <div className="flex items-start justify-between gap-2 text-xs text-slate-600 bg-slate-50 p-2 rounded-md border border-slate-100 group-hover:bg-blue-50 group-hover:border-blue-100 transition-colors">
-              <div className="flex items-start gap-2 overflow-hidden">
-                <LinkIcon className="h-4 w-4 text-blue-500 shrink-0 mt-0.5" />
-                <span className="font-mono break-all">{service.url || 'No URL Found'}</span>
+          <div className="space-y-1 mb-3">
+            <div className="flex items-start justify-between gap-2 text-[11px] text-slate-600 bg-slate-50 p-1.5 rounded-md border border-slate-100 group-hover:bg-blue-50 group-hover:border-blue-100 transition-colors">
+              <div className="flex items-start gap-1.5 overflow-hidden">
+                <LinkIcon className="h-3.5 w-3.5 text-blue-500 shrink-0 mt-0.5" />
+                <span className="font-mono break-all leading-tight">{service.url || (service.pdb_name ? `PDB: ${service.pdb_name}` : 'No URL')}</span>
               </div>
               {service.url && (
                 <div className="flex items-center gap-1 shrink-0">
@@ -110,28 +120,28 @@ export function ServiceCard({ service, onClick }: ServiceCardProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={handleOpenLink}
-                    className="p-1 hover:bg-white rounded border border-transparent hover:border-slate-200 transition-all text-slate-400 hover:text-blue-600"
+                    className="p-0.5 hover:bg-white rounded border border-transparent hover:border-slate-200 transition-all text-slate-400 hover:text-blue-600"
                     title="Open in new tab"
                   >
-                    <ExternalLink className="h-3.5 w-3.5" />
+                    <ExternalLink className="h-3 w-3" />
                   </a>
                   <button
                     onClick={handleCopy}
-                    className="p-1 hover:bg-white rounded border border-transparent hover:border-slate-200 transition-all text-slate-400 hover:text-blue-600"
+                    className="p-0.5 hover:bg-white rounded border border-transparent hover:border-slate-200 transition-all text-slate-400 hover:text-blue-600"
                     title="Copy URL"
                   >
-                    {copied ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5" />}
+                    {copied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
                   </button>
                 </div>
               )}
             </div>
-            <div className="flex items-center gap-2 text-xs text-slate-600 bg-slate-50 p-2 rounded-md border border-slate-100 group-hover:bg-indigo-50 group-hover:border-indigo-100 transition-colors">
-              <Globe className="h-4 w-4 text-indigo-500 shrink-0" />
-              <span className="font-mono">{service.ip_address || 'No IP Found'}</span>
+            <div className="flex items-center gap-1.5 text-[11px] text-slate-600 bg-slate-50 p-1.5 rounded-md border border-slate-100 group-hover:bg-indigo-50 group-hover:border-indigo-100 transition-colors">
+              <Globe className="h-3.5 w-3.5 text-indigo-500 shrink-0" />
+              <span className="font-mono">{service.ip_address || 'No IP'}</span>
             </div>
             {service.port && (
-              <div className="flex items-center gap-2 text-xs text-slate-600 bg-slate-50 p-2 rounded-md border border-slate-100 group-hover:bg-emerald-50 group-hover:border-emerald-100 transition-colors">
-                <Hash className="h-4 w-4 text-emerald-500 shrink-0" />
+              <div className="flex items-center gap-1.5 text-[11px] text-slate-600 bg-slate-50 p-1.5 rounded-md border border-slate-100 group-hover:bg-emerald-50 group-hover:border-emerald-100 transition-colors">
+                <Hash className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
                 <span className="font-mono">Port: {service.port}</span>
               </div>
             )}
@@ -155,6 +165,13 @@ export function ServiceCard({ service, onClick }: ServiceCardProps) {
               <span className="font-medium">{service.team}</span>
             </div>
             <div className="flex items-center gap-2">
+              <button
+                onClick={handleDownload}
+                className="p-0.5 hover:bg-slate-100 rounded text-slate-400 hover:text-blue-600 transition-colors mr-1"
+                title="Download Details"
+              >
+                <Download className="h-3.5 w-3.5" />
+              </button>
               {(service.service_username || service.service_password) && (
                 <div title="Credentials Available">
                   <Key className="h-3 w-3 text-amber-500" />

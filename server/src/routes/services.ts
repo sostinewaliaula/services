@@ -1,7 +1,20 @@
 import { Router } from 'express';
 import pool from '../db';
+import { checkAllServices } from '../uptime';
 
 const router = Router();
+
+// Trigger manual uptime check
+router.post('/uptime/check', async (req, res) => {
+    try {
+        // Run in background to avoid timeout
+        checkAllServices();
+        res.json({ message: 'Uptime check started' });
+    } catch (error) {
+        console.error('Error starting uptime check:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 // GET all services with category and type names
 router.get('/', async (req, res) => {
@@ -10,10 +23,14 @@ router.get('/', async (req, res) => {
       SELECT 
         s.*, 
         c.name as categoryName,
-        st.name as typeName
+        st.name as typeName,
+        e.name as environmentName,
+        t.name as teamName
       FROM services s
       LEFT JOIN categories c ON s.category_id = c.id
       LEFT JOIN service_types st ON s.service_type_id = st.id
+      LEFT JOIN environments e ON s.environment_id = e.id
+      LEFT JOIN teams t ON s.team_id = t.id
       ORDER BY s.name ASC
     `;
         const [rows]: any = await pool.query(query);
@@ -35,6 +52,8 @@ router.get('/', async (req, res) => {
             ...row,
             category: row.categoryName,
             serviceTypeName: row.typeName,
+            environment: row.environmentName,
+            team: row.teamName,
             isFeatured: Boolean(row.isFeatured),
             tags: tagsByServiceId[row.id] || []
         }));
@@ -52,23 +71,26 @@ router.post('/', async (req, res) => {
     try {
         await connection.beginTransaction();
         const {
-            name, description, category_id, service_type_id, status, environment, url,
-            ip_address, port, owner, team, notes, isFeatured,
-            documentation, dashboard, db_connection, db_username,
+            name, category_id, service_type_id, status, url,
+            ip_address, port, owner, environment_id, team_id, notes, isFeatured,
+            documentation, dashboard, db_connection, db_username, db_password, pdb_name,
             service_username, service_password, tags
         } = req.body;
 
+        const sanitizedEnvId = environment_id || null;
+        const sanitizedTeamId = team_id || null;
+
         const [result]: any = await connection.query(
             `INSERT INTO services (
-                name, description, category_id, service_type_id, status, environment, url,
-                ip_address, port, owner, team, notes, isFeatured,
-                documentation, dashboard, db_connection, db_username,
+                name, category_id, service_type_id, status, url,
+                ip_address, port, owner, environment_id, team_id, notes, isFeatured,
+                documentation, dashboard, db_connection, db_username, db_password, pdb_name,
                 service_username, service_password
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
-                name, description, category_id, service_type_id, status, environment, url,
-                ip_address, port, owner, team, notes, isFeatured ? 1 : 0,
-                documentation, dashboard, db_connection, db_username,
+                name, category_id, service_type_id, status || 'Active', url,
+                ip_address, port, owner, sanitizedEnvId, sanitizedTeamId, notes, isFeatured ? 1 : 0,
+                documentation, dashboard, db_connection, db_username, db_password, pdb_name,
                 service_username, service_password
             ]
         );
@@ -109,24 +131,27 @@ router.put('/:id', async (req, res) => {
         await connection.beginTransaction();
         const { id } = req.params;
         const {
-            name, description, category_id, service_type_id, status, environment, url,
-            ip_address, port, owner, team, notes, isFeatured,
-            documentation, dashboard, db_connection, db_username,
+            name, category_id, service_type_id, status, url,
+            ip_address, port, owner, environment_id, team_id, notes, isFeatured,
+            documentation, dashboard, db_connection, db_username, db_password, pdb_name,
             service_username, service_password, tags
         } = req.body;
 
+        const sanitizedEnvId = environment_id || null;
+        const sanitizedTeamId = team_id || null;
+
         await connection.query(
             `UPDATE services SET 
-                name = ?, description = ?, category_id = ?, service_type_id = ?, status = ?, 
-                environment = ?, url = ?, ip_address = ?, port = ?, 
-                owner = ?, team = ?, notes = ?, isFeatured = ?, 
+                name = ?, category_id = ?, service_type_id = ?, status = ?, 
+                url = ?, ip_address = ?, port = ?, 
+                owner = ?, environment_id = ?, team_id = ?, notes = ?, isFeatured = ?, 
                 documentation = ?, dashboard = ?, db_connection = ?, 
-                db_username = ?, service_username = ?, service_password = ?
+                db_username = ?, db_password = ?, pdb_name = ?, service_username = ?, service_password = ?
             WHERE id = ?`,
             [
-                name, description, category_id, service_type_id, status, environment, url,
-                ip_address, port, owner, team, notes, isFeatured ? 1 : 0,
-                documentation, dashboard, db_connection, db_username,
+                name, category_id, service_type_id, status, url,
+                ip_address, port, owner, sanitizedEnvId, sanitizedTeamId, notes, isFeatured ? 1 : 0,
+                documentation, dashboard, db_connection, db_username, db_password, pdb_name,
                 service_username, service_password, id
             ]
         );
@@ -151,10 +176,12 @@ router.put('/:id', async (req, res) => {
 
         await connection.commit();
         res.json({ message: 'Service updated successfully' });
-    } catch (error) {
+    } catch (error: any) {
         await connection.rollback();
         console.error('Error updating service:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('Details:', error.message, error.stack);
+        console.error('Request Body:', JSON.stringify(req.body, null, 2));
+        res.status(500).json({ error: error.message || 'Internal server error' });
     } finally {
         connection.release();
     }

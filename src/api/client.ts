@@ -38,7 +38,8 @@ export const api = {
             body: JSON.stringify(service)
         });
         if (!response.ok) {
-            throw new Error('Failed to create service');
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error || 'Failed to create service');
         }
         return response.json();
     },
@@ -49,7 +50,8 @@ export const api = {
             body: JSON.stringify(service)
         });
         if (!response.ok) {
-            throw new Error('Failed to update service');
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error || 'Failed to update service');
         }
     },
     deleteService: async (id: string): Promise<void> => {
@@ -58,6 +60,14 @@ export const api = {
         });
         if (!response.ok) {
             throw new Error('Failed to delete service');
+        }
+    },
+    checkUptime: async (): Promise<void> => {
+        const response = await fetch(`${API_BASE_URL}/services/uptime/check`, {
+            method: 'POST'
+        });
+        if (!response.ok) {
+            throw new Error('Failed to trigger uptime check');
         }
     },
     createCategory: async (category: { name: string }): Promise<{ id: string }> => {
@@ -116,6 +126,52 @@ export const api = {
         });
         if (!response.ok) {
             throw new Error('Failed to delete service type');
+        }
+    },
+    getCategoriesForType: async (serviceTypeId: string): Promise<ServiceCategoryData[]> => {
+        const response = await fetch(`${API_BASE_URL}/service-types/${serviceTypeId}/categories`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch categories for service type');
+        }
+        return response.json();
+    },
+    getTagsForType: async (serviceTypeId: string): Promise<Tag[]> => {
+        const response = await fetch(`${API_BASE_URL}/service-types/${serviceTypeId}/tags`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch tags for service type');
+        }
+        return response.json();
+    },
+    associateCategoryWithType: async (typeId: string, categoryId: string): Promise<void> => {
+        const response = await fetch(`${API_BASE_URL}/service-types/${typeId}/categories/${categoryId}`, {
+            method: 'POST'
+        });
+        if (!response.ok) {
+            throw new Error('Failed to associate category with type');
+        }
+    },
+    removeCategoryFromType: async (typeId: string, categoryId: string): Promise<void> => {
+        const response = await fetch(`${API_BASE_URL}/service-types/${typeId}/categories/${categoryId}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) {
+            throw new Error('Failed to remove category from type');
+        }
+    },
+    associateTagWithType: async (typeId: string, tagId: string): Promise<void> => {
+        const response = await fetch(`${API_BASE_URL}/service-types/${typeId}/tags/${tagId}`, {
+            method: 'POST'
+        });
+        if (!response.ok) {
+            throw new Error('Failed to associate tag with type');
+        }
+    },
+    removeTagFromType: async (typeId: string, tagId: string): Promise<void> => {
+        const response = await fetch(`${API_BASE_URL}/service-types/${typeId}/tags/${tagId}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) {
+            throw new Error('Failed to remove tag from type');
         }
     },
     createTag: async (tag: { name: string }): Promise<{ id: string }> => {

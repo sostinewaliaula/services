@@ -1,50 +1,68 @@
-import React, { useState } from 'react';
-import { Service, ServiceCategoryData, ServiceTypeData, ServiceStatus, ServiceEnvironment } from '../types/service';
+import React, { useState, useEffect } from 'react';
+import { Service, ServiceCategoryData, ServiceTypeData, EnvironmentData, TeamData, Tag } from '../types/service';
+import { api } from '../api/client';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import { Select } from './ui/Select';
-import { Globe, Database, Key, Info, Save, X, Tag } from 'lucide-react';
+import { SearchableSelect } from './ui/SearchableSelect';
+import { Globe, Database, Info, X, Tag as TagIcon, Eye, EyeOff, Key } from 'lucide-react';
 
 interface ServiceFormProps {
     initialData?: Partial<Service>;
     categories: ServiceCategoryData[];
     serviceTypes?: ServiceTypeData[];
+    environments?: EnvironmentData[];
+    teams?: TeamData[];
     onSubmit: (data: Partial<Service>) => void;
     onCancel: () => void;
     isLoading?: boolean;
 }
 
-export function ServiceForm({ initialData, categories, serviceTypes = [], onSubmit, onCancel, isLoading }: ServiceFormProps) {
+export function ServiceForm({ initialData, categories, serviceTypes = [], environments = [], teams = [], onSubmit, onCancel, isLoading }: ServiceFormProps) {
     const [formData, setFormData] = useState<Partial<Service>>({
         name: '',
         category_id: '',
         service_type_id: '',
-        status: 'Active' as ServiceStatus,
-        environment: 'Dev' as ServiceEnvironment,
-        url: '',
+        environment_id: '',
+        team_id: '',
         ip_address: '',
         port: undefined,
-        owner: '',
-        team: '',
         notes: '',
         isFeatured: false,
         documentation: '',
         dashboard: '',
-        db_connection: '',
+        pdb_name: '',
         db_username: '',
+        db_password: '',
         service_username: '',
         service_password: '',
+        url: '',
+        status: 'Active' as any,
+        db_connection: '',
         tags: [],
         ...initialData
     });
 
-    const [tagInput, setTagInput] = useState('');
     const [selectedTags, setSelectedTags] = useState<string[]>(
         initialData?.tags?.map(t => typeof t === 'string' ? t : t.name) || []
     );
+    const [showDbPassword, setShowDbPassword] = useState(false);
+    const [showServicePassword, setShowServicePassword] = useState(false);
+    const [availableCategories, setAvailableCategories] = useState<ServiceCategoryData[]>(categories);
+    const [availableTags, setAvailableTags] = useState<Tag[]>([]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
+
+        if (name === 'service_type_id') {
+            setFormData(prev => ({
+                ...prev,
+                service_type_id: value,
+                category_id: ''
+            }));
+            return;
+        }
+
         setFormData(prev => ({
             ...prev,
             [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked :
@@ -56,14 +74,13 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], onSubm
         e.preventDefault();
         onSubmit({
             ...formData,
-            tags: selectedTags as any // The backend handles string array or tag objects
+            tags: selectedTags as any
         });
     };
 
-    const addTag = () => {
-        if (tagInput.trim() && !selectedTags.includes(tagInput.trim())) {
-            setSelectedTags([...selectedTags, tagInput.trim()]);
-            setTagInput('');
+    const addTag = (tagName: string) => {
+        if (!selectedTags.includes(tagName)) {
+            setSelectedTags([...selectedTags, tagName]);
         }
     };
 
@@ -73,93 +90,172 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], onSubm
 
     const selectedType = serviceTypes.find(t => t.id === formData.service_type_id)?.name;
     const isDatabase = selectedType === 'Database';
+    const isWebLogic = selectedType === 'WebLogic';
+    const showDatabaseFields = isDatabase || isWebLogic;
+
+    useEffect(() => {
+        if (formData.service_type_id) {
+            api.getCategoriesForType(formData.service_type_id)
+                .then(setAvailableCategories)
+                .catch(() => setAvailableCategories(categories));
+
+            api.getTagsForType(formData.service_type_id)
+                .then(setAvailableTags)
+                .catch(() => setAvailableTags([]));
+        } else {
+            setAvailableCategories(categories);
+            setAvailableTags([]);
+        }
+    }, [formData.service_type_id, categories]);
+
+
+    const renderTags = () => (
+        <div className="space-y-4">
+            <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-orange-500/20 mb-4">
+                <TagIcon className="h-4 w-4 text-orange-500" /> Tags
+            </h3>
+            <div className="flex flex-wrap gap-2">
+                {availableTags.map(tag => (
+                    <button
+                        key={tag.id}
+                        type="button"
+                        onClick={() => addTag(tag.name)}
+                        className={`px-2 py-0.5 text-[10px] font-bold rounded-full border transition-all ${selectedTags.includes(tag.name)
+                            ? 'bg-blue-50 text-blue-700 border-blue-200 opacity-50'
+                            : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-blue-50'
+                            }`}
+                    >
+                        {tag.name}
+                    </button>
+                ))}
+            </div>
+            <div className="flex flex-wrap gap-2 pt-1">
+                {selectedTags.map(tag => (
+                    <span key={tag} className="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-100">
+                        {tag}
+                        <button type="button" onClick={() => removeTag(tag)} className="ml-1"><X className="h-2 w-2" /></button>
+                    </span>
+                ))}
+            </div>
+        </div>
+    );
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Basic Info */}
-                <div className="space-y-4">
-                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                        <Info className="h-4 w-4 text-blue-500" /> Basic Information
-                    </h3>
-
-                    <Input
-                        label="Service Name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="e.g. Identity Provider"
-                        required
-                        className="w-full"
-                    />
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <Select label="Category" name="category_id" value={formData.category_id} onChange={handleChange} required>
-                            <option value="">Select Category</option>
-                            {categories.map(cat => (
-                                <option key={cat.id} value={cat.id}>{cat.name}</option>
-                            ))}
-                        </Select>
-
-                        <Select label="Type" name="service_type_id" value={formData.service_type_id} onChange={handleChange} required>
-                            <option value="">Select Type</option>
-                            {serviceTypes.map(type => (
-                                <option key={type.id} value={type.id}>{type.name}</option>
-                            ))}
-                        </Select>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-4">
-                        <Select label="Status" name="status" value={formData.status} onChange={handleChange}>
-                            {isDatabase ? (
-                                <>
-                                    <option value="Active">Active</option>
-                                    <option value="Maintenance">Maintenance</option>
-                                    <option value="Deprecated">Deprecated</option>
-                                </>
-                            ) : (
-                                <>
-                                    <option value="Online">Online</option>
-                                    <option value="Offline">Offline</option>
-                                    <option value="Maintenance">Maintenance</option>
-                                </>
-                            )}
-                        </Select>
-                    </div>
-                </div>
-
-                {/* Access Info */}
-                <div className="space-y-4">
-                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                        <Globe className="h-4 w-4 text-emerald-500" /> Access & Environment
-                    </h3>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <Select label="Environment" name="environment" value={formData.environment} onChange={handleChange}>
-                            <option value="Production">Production</option>
-                            <option value="Test">Test</option>
-                            <option value="Dev">Dev</option>
-                        </Select>
+        <form onSubmit={handleSubmit} className="flex flex-col h-full">
+            <div className="p-6 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Basic Info */}
+                    <div className="space-y-4">
+                        <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-blue-500/20 mb-4">
+                            <Info className="h-4 w-4 text-blue-500" /> Basic Information
+                        </h3>
 
                         <Input
-                            label="IP Address"
-                            name="ip_address"
-                            value={formData.ip_address}
+                            label="Service Name"
+                            name="name"
+                            value={formData.name}
                             onChange={handleChange}
-                            placeholder="0.0.0.0"
+                            placeholder="e.g. Identity Provider"
+                            required
                         />
-                    </div>
 
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="col-span-2">
-                            <Input
-                                label="Service URL"
-                                name="url"
-                                value={formData.url}
-                                onChange={handleChange}
-                                placeholder="https://..."
+                        <div className="grid grid-cols-2 gap-3">
+                            <Select label="Service Type" name="service_type_id" value={formData.service_type_id} onChange={handleChange} required>
+                                <option value="">Select Type</option>
+                                {serviceTypes.map(type => (
+                                    <option key={type.id} value={type.id}>{type.name}</option>
+                                ))}
+                            </Select>
+
+                            <SearchableSelect
+                                label="Category"
+                                value={formData.category_id || ''}
+                                onChange={(value) => setFormData(prev => ({ ...prev, category_id: value }))}
+                                options={availableCategories}
+                                required
+                                disabled={!formData.service_type_id}
+                                placeholder={formData.service_type_id ? 'Select Category' : 'Choose Type First'}
                             />
                         </div>
+
+
+                        {/* Database Info */}
+                        {showDatabaseFields && (
+                            <div className="space-y-4">
+                                <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-indigo-500/20 mb-4">
+                                    <Database className="h-4 w-4 text-indigo-500" /> Database Info
+                                </h3>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {isDatabase && (
+                                        <Input
+                                            label="PDB Name"
+                                            name="pdb_name"
+                                            value={formData.pdb_name || ''}
+                                            onChange={handleChange}
+                                            placeholder="e.g. ORCLPDB1"
+                                            required
+                                        />
+                                    )}
+                                    <Input
+                                        label="DB Username"
+                                        name="db_username"
+                                        value={formData.db_username || ''}
+                                        onChange={handleChange}
+                                        placeholder="e.g. app_user"
+                                    />
+                                    <Input
+                                        label="Connection String"
+                                        name="db_connection"
+                                        value={formData.db_connection || ''}
+                                        onChange={handleChange}
+                                        placeholder="e.g. //localhost:1521/ORCL"
+                                    />
+                                    <div className="relative">
+                                        <Input
+                                            label="DB Password"
+                                            name="db_password"
+                                            type={showDbPassword ? "text" : "password"}
+                                            value={formData.db_password || ''}
+                                            onChange={handleChange}
+                                            placeholder="Database password"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowDbPassword(!showDbPassword)}
+                                            className="absolute right-3 top-[32px] text-slate-400 hover:text-slate-600"
+                                        >
+                                            {showDbPassword ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                    </div>
+
+                    {/* Infrastructure */}
+                    <div className="space-y-4">
+                        <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-emerald-500/20 mb-4">
+                            <Globe className="h-4 w-4 text-emerald-500" /> Infrastructure Details
+                        </h3>
+
+                        <div className="grid grid-cols-2 gap-3">
+                            <Select label="Environment" name="environment_id" value={formData.environment_id || ''} onChange={handleChange} required>
+                                <option value="">Select Environment</option>
+                                {environments.map(env => (
+                                    <option key={env.id} value={env.id}>{env.name}</option>
+                                ))}
+                            </Select>
+
+                            <Input
+                                label="IP Address"
+                                name="ip_address"
+                                value={formData.ip_address}
+                                onChange={handleChange}
+                                placeholder="0.0.0.0"
+                            />
+                        </div>
+
                         <Input
                             label="Port"
                             name="port"
@@ -168,117 +264,82 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], onSubm
                             onChange={handleChange}
                             placeholder="8080"
                         />
-                    </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <Input
-                            label="Team"
-                            name="team"
-                            value={formData.team}
-                            onChange={handleChange}
-                            placeholder="Infrastructure"
-                            required
-                        />
-                        <Input
-                            label="Owner"
-                            name="owner"
-                            value={formData.owner}
-                            onChange={handleChange}
-                            placeholder="John Doe"
-                            required
-                        />
-                    </div>
-                </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-slate-100 pt-6">
-                {/* Credentials */}
-                <div className="space-y-4">
-                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                        <Key className="h-4 w-4 text-amber-500" /> Credentials
-                    </h3>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Input
-                            label="Username"
-                            name="service_username"
-                            value={formData.service_username}
-                            onChange={handleChange}
-                        />
-                        <Input
-                            label="Password"
-                            name="service_password"
-                            value={formData.service_password}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-
-                {/* Database Info */}
-                <div className={`space-y-4 transition-all ${isDatabase ? 'opacity-100' : 'opacity-40 grayscale pointer-events-none'}`}>
-                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                        <Database className="h-4 w-4 text-indigo-500" /> Database Info
-                    </h3>
-                    <Input
-                        label="Connection String"
-                        name="db_connection"
-                        value={formData.db_connection}
-                        onChange={handleChange}
-                        placeholder="host:port/dbname"
-                        disabled={!isDatabase}
-                    />
-                    <Input
-                        label="DB Username"
-                        name="db_username"
-                        value={formData.db_username}
-                        onChange={handleChange}
-                        disabled={!isDatabase}
-                    />
-                </div>
-
-                {/* WebLogic / Tags */}
-                <div className="space-y-4">
-                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                        <Tag className="h-4 w-4 text-orange-500" /> Tags & Labels
-                    </h3>
-                    <div className="flex gap-2">
-                        <div className="flex-1">
-                            <Input
-                                label="Add Tag"
-                                value={tagInput}
-                                onChange={(e) => setTagInput(e.target.value)}
-                                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                                placeholder="e.g. docker, oracle"
-                            />
-                        </div>
-                        <Button type="button" variant="secondary" onClick={addTag} className="self-end mb-[2px]">Add</Button>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                        {selectedTags.map(tag => (
-                            <span key={tag} className="inline-flex items-center px-2.5 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-100 animate-in fade-in zoom-in duration-200">
-                                {tag}
-                                <button
-                                    type="button"
-                                    onClick={() => removeTag(tag)}
-                                    className="ml-1.5 inline-flex items-center justify-center h-4 w-4 rounded-full hover:bg-blue-100 text-blue-400 hover:text-blue-600 transition-all"
-                                >
-                                    <X className="h-3 w-3" />
-                                </button>
-                            </span>
-                        ))}
-                        {selectedTags.length === 0 && (
-                            <span className="text-xs text-slate-400 italic">No tags added yet</span>
+                        {!isDatabase && (
+                            <>
+                                <Input
+                                    label="Service URL"
+                                    name="url"
+                                    value={formData.url || ''}
+                                    onChange={handleChange}
+                                    placeholder="https://..."
+                                />
+                                <div className="grid grid-cols-2 gap-3">
+                                    <SearchableSelect
+                                        label="Team"
+                                        value={formData.team_id || ''}
+                                        onChange={(value) => setFormData(prev => ({ ...prev, team_id: value }))}
+                                        options={teams}
+                                        placeholder="Select Team (Optional)"
+                                    />
+                                </div>
+                            </>
+                        )}
+                        {isDatabase && (
+                            <div className="pt-4 border-t border-slate-100 mt-4">
+                                {renderTags()}
+                            </div>
                         )}
                     </div>
                 </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-slate-100 pt-6">
+
+                    {/* Credentials - WebLogic only */}
+                    {isWebLogic ? (
+                        <div className="space-y-4">
+                            <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-amber-500/20 mb-4">
+                                <Key className="h-4 w-4 text-amber-500" /> Credentials
+                            </h3>
+                            <div className="grid grid-cols-2 gap-3">
+                                <Input
+                                    label="Username"
+                                    name="service_username"
+                                    value={formData.service_username || ''}
+                                    onChange={handleChange}
+                                    placeholder="e.g. admin"
+                                />
+                                <div className="relative">
+                                    <Input
+                                        label="Password"
+                                        name="service_password"
+                                        value={formData.service_password || ''}
+                                        onChange={handleChange}
+                                        type={showServicePassword ? "text" : "password"}
+                                        placeholder="Service password"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowServicePassword(!showServicePassword)}
+                                        className="absolute right-3 top-[32px] text-slate-400 hover:text-slate-600"
+                                    >
+                                        {showServicePassword ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div></div> // Spacer for left column if no credentials
+                    )}
+
+                    {/* Tags - Show here if NOT Database */}
+                    {!isDatabase && renderTags()}
+                </div>
             </div>
 
-            <div className="flex justify-end gap-3 pt-6 border-t border-slate-100">
-                <Button type="button" variant="ghost" onClick={onCancel}>
-                    <X className="h-4 w-4 mr-2" /> Cancel
-                </Button>
-                <Button type="submit" isLoading={isLoading}>
-                    <Save className="h-4 w-4 mr-2" /> {initialData?.id ? 'Update Service' : 'Create Service'}
-                </Button>
+            <div className="sticky bottom-0 bg-slate-50 px-6 py-4 border-t border-slate-200 flex justify-end gap-3 z-10 mt-auto">
+                <Button type="button" variant="ghost" onClick={onCancel}>Cancel</Button>
+                <Button type="submit" isLoading={isLoading}>{initialData?.id ? 'Update Service' : 'Create Service'}</Button>
             </div>
         </form>
     );

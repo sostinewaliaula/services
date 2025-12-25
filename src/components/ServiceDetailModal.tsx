@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Service, ServiceCategoryData, ServiceTypeData } from '../types/service';
+import { Service, ServiceCategoryData, ServiceTypeData, EnvironmentData, TeamData } from '../types/service';
 import { Modal } from './ui/Modal';
 import { Badge } from './ui/Badge';
 import { Button } from './ui/Button';
 import { ServiceForm } from './ServiceForm';
-import { ExternalLink, FileText, BarChart2, Clock, User, Shield, Globe, AlertTriangle, Users, Key, Database, Edit, Trash2, Tag } from 'lucide-react';
+import { ExternalLink, FileText, BarChart2, Clock, Shield, Globe, AlertTriangle, Users, Key, Database, Edit, Trash2, Tag, Copy, Check, Eye, EyeOff, Download } from 'lucide-react';
+import { downloadServiceDetails } from '../utils/downloadService';
 
 interface ServiceDetailModalProps {
   service: Service | null;
@@ -14,6 +15,8 @@ interface ServiceDetailModalProps {
   onDelete?: (id: string) => Promise<void>;
   categories?: ServiceCategoryData[];
   serviceTypes?: ServiceTypeData[];
+  environments?: EnvironmentData[];
+  teams?: TeamData[];
 }
 
 export function ServiceDetailModal({
@@ -23,10 +26,15 @@ export function ServiceDetailModal({
   onUpdate,
   onDelete,
   categories = [],
-  serviceTypes = []
+  serviceTypes = [],
+  environments = [],
+  teams = []
 }: ServiceDetailModalProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [showDbPassword, setShowDbPassword] = useState(false);
+  const [showServicePassword, setShowServicePassword] = useState(false);
 
   if (!service) return null;
 
@@ -55,6 +63,28 @@ export function ServiceDetailModal({
     }
   };
 
+  const handleCopy = (text: string, field: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 2000);
+    });
+  };
+
+  const CopyButton = ({ text, field }: { text: string, field: string }) => (
+    <button
+      onClick={() => handleCopy(text, field)}
+      className="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-blue-600 transition-colors ml-2"
+      title="Copy to clipboard"
+    >
+      {copiedField === field ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+    </button>
+  );
+
+  const handleDownload = () => {
+    if (!service) return;
+    downloadServiceDetails(service);
+  };
+
   const getStatusVariant = (status: string) => {
     switch (status) {
       case 'Active':
@@ -78,25 +108,32 @@ export function ServiceDetailModal({
         onClose();
       }}
       title={isEditing ? 'Edit Service' : 'Service Details'}
-      maxWidth="2xl"
+      maxWidth="3xl"
+      noPadding
     >
       {isEditing ? (
         <ServiceForm
           initialData={service}
           categories={categories}
           serviceTypes={serviceTypes}
+          environments={environments}
+          teams={teams}
           onSubmit={handleUpdate}
           onCancel={() => setIsEditing(false)}
           isLoading={isSubmitting}
         />
       ) : (
-        <div className="space-y-6">
+        <div className="p-6 space-y-6">
           {/* Header Section */}
           <div className="flex justify-between items-start">
             <div>
               <div className="flex items-center gap-3 mb-1">
                 <h2 className="text-2xl font-bold text-slate-900">{service.name}</h2>
-                <Badge variant={getStatusVariant(service.status)}>{service.status}</Badge>
+                {service.url ? (
+                  <Badge variant={getStatusVariant(service.status)}>{service.status}</Badge>
+                ) : (
+                  <Badge variant="neutral">No URL</Badge>
+                )}
               </div>
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded flex items-center gap-1 border border-blue-100 uppercase tracking-wider">
@@ -157,6 +194,10 @@ export function ServiceDetailModal({
                 </Button>
               </a>
             )}
+            <Button variant="outline" className="w-full sm:w-auto gap-2" onClick={handleDownload}>
+              <Download className="h-4 w-4" />
+              Download
+            </Button>
           </div>
 
           {/* Metadata Grid */}
@@ -175,12 +216,6 @@ export function ServiceDetailModal({
               <div className="text-slate-900 font-medium">{service.category}</div>
             </div>
 
-            <div className="space-y-1">
-              <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
-                <User className="h-4 w-4" /> Owner
-              </div>
-              <div className="text-slate-900 font-medium">{service.owner}</div>
-            </div>
 
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
@@ -212,8 +247,25 @@ export function ServiceDetailModal({
                     <div className="flex items-center gap-2 text-xs font-medium text-blue-600">
                       <Database className="h-3 w-3" /> Database Connection
                     </div>
-                    <div className="text-slate-900 font-mono text-xs bg-white p-2 border border-blue-100 rounded">
-                      {service.db_connection}
+                    <div className="flex items-center justify-between bg-white p-2 border border-blue-100 rounded">
+                      <div className="text-slate-900 font-mono text-xs break-all">
+                        {service.db_connection}
+                      </div>
+                      <CopyButton text={service.db_connection} field="db_connection" />
+                    </div>
+                  </div>
+                )}
+
+                {service.pdb_name && (
+                  <div className="sm:col-span-2 space-y-1">
+                    <div className="flex items-center gap-2 text-xs font-medium text-blue-600">
+                      <Database className="h-3 w-3" /> PDB Name
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="text-slate-900 font-medium text-sm">
+                        {service.pdb_name}
+                      </div>
+                      <CopyButton text={service.pdb_name} field="pdb_name" />
                     </div>
                   </div>
                 )}
@@ -221,22 +273,73 @@ export function ServiceDetailModal({
                 {service.db_username && (
                   <div className="space-y-1">
                     <div className="text-xs font-medium text-blue-600">DB Username</div>
-                    <div className="text-slate-900 font-mono text-xs">{service.db_username}</div>
+                    <div className="flex items-center justify-between bg-white p-1.5 border border-blue-50 rounded">
+                      <div className="text-slate-900 font-mono text-xs">{service.db_username}</div>
+                      <CopyButton text={service.db_username} field="db_username" />
+                    </div>
+                  </div>
+                )}
+
+                {service.db_password && (
+                  <div className="space-y-1">
+                    <div className="text-xs font-medium text-blue-600">DB Password</div>
+                    <div className="flex items-center justify-between bg-slate-900 px-2 py-0.5 rounded w-full">
+                      <div className="text-slate-300 font-mono text-xs">
+                        {showDbPassword ? service.db_password : '••••••••'}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => setShowDbPassword(!showDbPassword)}
+                          className="p-1 hover:bg-slate-800 rounded text-slate-400 hover:text-white transition-colors"
+                          title={showDbPassword ? "Hide password" : "Show password"}
+                        >
+                          {showDbPassword ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                        </button>
+                        <button
+                          onClick={() => handleCopy(service.db_password!, 'db_password')}
+                          className="p-1 hover:bg-slate-800 rounded text-slate-400 hover:text-white transition-colors"
+                          title="Copy to clipboard"
+                        >
+                          {copiedField === 'db_password' ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 )}
 
                 {service.service_username && (
                   <div className="space-y-1">
                     <div className="text-xs font-medium text-blue-600">Service Username</div>
-                    <div className="text-slate-900 font-mono text-xs">{service.service_username}</div>
+                    <div className="flex items-center justify-between bg-white p-1.5 border border-blue-50 rounded">
+                      <div className="text-slate-900 font-mono text-xs">{service.service_username}</div>
+                      <CopyButton text={service.service_username} field="service_username" />
+                    </div>
                   </div>
                 )}
 
                 {service.service_password && (
                   <div className="space-y-1">
                     <div className="text-xs font-medium text-blue-600">Service Password</div>
-                    <div className="text-slate-900 font-mono text-xs bg-slate-900 text-slate-300 px-2 py-0.5 rounded w-fit">
-                      {service.service_password}
+                    <div className="flex items-center justify-between bg-slate-900 px-2 py-0.5 rounded w-full">
+                      <div className="text-slate-300 font-mono text-xs">
+                        {showServicePassword ? service.service_password : '••••••••'}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => setShowServicePassword(!showServicePassword)}
+                          className="p-1 hover:bg-slate-800 rounded text-slate-400 hover:text-white transition-colors"
+                          title={showServicePassword ? "Hide password" : "Show password"}
+                        >
+                          {showServicePassword ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                        </button>
+                        <button
+                          onClick={() => handleCopy(service.service_password!, 'service_password')}
+                          className="p-1 hover:bg-slate-800 rounded text-slate-400 hover:text-white transition-colors"
+                          title="Copy to clipboard"
+                        >
+                          {copiedField === 'service_password' ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )}

@@ -44,7 +44,27 @@ async function seed() {
             typeMap.set(typeName, rows[0].id);
         }
 
-        console.log('Categories and Service Types synced. Starting services insertion...');
+        // 2.7 Ensure Environments exist
+        console.log('Ensuring environments exist...');
+        const envs = ['Production', 'Test', 'Dev'];
+        const envMap = new Map<string, string>();
+        for (const envName of envs) {
+            await connection.query('INSERT IGNORE INTO environments (name) VALUES (?)', [envName]);
+            const [rows]: any = await connection.query('SELECT id FROM environments WHERE name = ?', [envName]);
+            envMap.set(envName, rows[0].id);
+        }
+
+        // 2.8 Ensure Teams exist
+        console.log('Ensuring teams exist...');
+        const teams = ['Infrastructure', 'Development', 'DevOps'];
+        const teamMap = new Map<string, string>();
+        for (const teamName of teams) {
+            await connection.query('INSERT IGNORE INTO teams (name) VALUES (?)', [teamName]);
+            const [rows]: any = await connection.query('SELECT id FROM teams WHERE name = ?', [teamName]);
+            teamMap.set(teamName, rows[0].id);
+        }
+
+        console.log('Categories, Service Types, Environments, and Teams synced. Starting services insertion...');
 
         // 3. Insert services
         let insertedCount = 0;
@@ -76,7 +96,7 @@ async function seed() {
 
             const query = `
         INSERT INTO services 
-        (name, url, category_id, service_type_id, ip_address, port, status, environment, owner, team, isFeatured)
+        (name, url, category_id, service_type_id, environment_id, team_id, ip_address, port, status, owner, isFeatured)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
 
@@ -85,12 +105,12 @@ async function seed() {
                 s.url,
                 categoryId,
                 serviceTypeId,
+                envMap.get('Production'),
+                teamMap.get('Infrastructure'),
                 s.ip || null,
                 port,
                 'Active',
-                'Production',
                 'System',
-                'Infrastructure',
                 s.category === 'featured' // Simple heuristic for featured
             ];
 

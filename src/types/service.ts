@@ -25,7 +25,6 @@ export interface Tag {
 
 export type ServiceCategory = string;
 export type ServiceStatus = 'Active' | 'Maintenance' | 'Deprecated' | 'Online' | 'Offline';
-export type ServiceEnvironment = 'Production' | 'Test' | 'Dev';
 
 export interface Service {
   id: string;
@@ -35,7 +34,7 @@ export interface Service {
   service_type_id?: string;
   serviceTypeName?: string;
   status: ServiceStatus;
-  environment: ServiceEnvironment;
+  environment: string;
   environment_id?: string;
   url: string;
   ip_address?: string;
@@ -50,6 +49,8 @@ export interface Service {
   dashboard?: string;
   db_connection?: string;
   db_username?: string;
+  db_password?: string;
+  pdb_name?: string;
   service_username?: string;
   service_password?: string;
   tags?: Tag[];

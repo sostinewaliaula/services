@@ -8,6 +8,7 @@ import serviceTypesRouter from './routes/serviceTypes';
 import tagsRouter from './routes/tags';
 import environmentsRouter from './routes/environments';
 import teamsRouter from './routes/teams';
+import { startUptimeMonitor } from './uptime';
 
 dotenv.config();
 
@@ -42,6 +43,11 @@ app.get('/', (req, res) => {
     res.send('Backend server is running');
 });
 
+// Start Uptime Monitor
+startUptimeMonitor();
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+// Force restart

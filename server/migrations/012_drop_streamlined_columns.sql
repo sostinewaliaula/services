@@ -1,0 +1,9 @@
+ALTER TABLE services
+DROP COLUMN status,
+DROP COLUMN environment,
+DROP COLUMN url,
+DROP COLUMN owner,
+DROP COLUMN team,
+DROP COLUMN db_connection,
+DROP COLUMN service_username,
+DROP COLUMN service_password;
