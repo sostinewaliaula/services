@@ -1,9 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import { api } from '../api/client';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { Service, ServiceCategoryData, ServiceTypeData, Tag as TagData, EnvironmentData, TeamData } from '../types/service';
 import { Button } from '../components/ui/Button';
 import { Header } from '../components/Header';
 import { ServiceForm } from '../components/ServiceForm';
+import { ServiceIcon } from '../components/ServiceIcon';
 import { Modal } from '../components/ui/Modal';
 import { ConfirmModal } from '../components/ui/ConfirmModal';
 import { useToast } from '../components/ui/Toast';
@@ -24,6 +27,15 @@ import {
 } from 'lucide-react';
 
 export function ManageServices() {
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/login');
+        }
+    }, [isAuthenticated, navigate]);
+
     const [services, setServices] = useState<Service[]>([]);
     const [categories, setCategories] = useState<ServiceCategoryData[]>([]);
     const [serviceTypes, setServiceTypes] = useState<ServiceTypeData[]>([]);
@@ -963,19 +975,27 @@ export function ManageServices() {
                                                         />
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <div className="flex flex-col">
-                                                            <span className="font-semibold text-slate-900 leading-none mb-1">{service.name}</span>
-                                                            {service.serviceTypeName === 'Database' ? (
-                                                                <span className="text-[10px] font-mono text-slate-500">
-                                                                    {service.ip_address}
-                                                                    {service.port ? `/${service.port}` : ''}
-                                                                    {service.pdb_name ? `/${service.pdb_name}` : ''}
-                                                                </span>
-                                                            ) : (
-                                                                <span className="text-xs text-blue-600 truncate max-w-[250px] hover:underline cursor-pointer">
-                                                                    {service.url}
-                                                                </span>
-                                                            )}
+                                                        <div className="flex items-center gap-3">
+                                                            <ServiceIcon
+                                                                name={service.name}
+                                                                category={service.category}
+                                                                logoUrl={service.logo_url}
+                                                                size="sm"
+                                                            />
+                                                            <div className="flex flex-col">
+                                                                <span className="font-semibold text-slate-900 leading-none mb-1">{service.name}</span>
+                                                                {service.serviceTypeName === 'Database' ? (
+                                                                    <span className="text-[10px] font-mono text-slate-500">
+                                                                        {service.ip_address}
+                                                                        {service.port ? `/${service.port}` : ''}
+                                                                        {service.pdb_name ? `/${service.pdb_name}` : ''}
+                                                                    </span>
+                                                                ) : (
+                                                                    <span className="text-xs text-blue-600 truncate max-w-[250px] hover:underline cursor-pointer">
+                                                                        {service.url}
+                                                                    </span>
+                                                                )}
+                                                            </div>
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4">

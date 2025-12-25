@@ -2,6 +2,8 @@ import { Search, Settings, LayoutDashboard, X } from 'lucide-react';
 import logo from '../assets/logo.png';
 import { Button } from './ui/Button';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { LogOut } from 'lucide-react';
 
 interface HeaderProps {
     searchTerm: string;
@@ -17,6 +19,7 @@ interface HeaderProps {
 export function Header({ searchTerm, onSearchChange, actionButton, searchPlaceholder = "Search services..." }: HeaderProps) {
     const location = useLocation();
     const isManagePage = location.pathname === '/manage';
+    const { isAuthenticated, logout } = useAuth();
 
     return (
         <header className="bg-white border-b border-slate-200 sticky top-0 z-30">
@@ -85,6 +88,18 @@ export function Header({ searchTerm, onSearchChange, actionButton, searchPlaceho
                                 )}
                             </Button>
                         </Link>
+
+                        {isAuthenticated && (
+                            <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={logout}
+                                className="gap-2 text-slate-500 hover:text-red-600"
+                            >
+                                <LogOut className="h-4 w-4" />
+                                <span className="hidden sm:inline">Logout</span>
+                            </Button>
+                        )}
                     </div>
                 </div>
             </div>

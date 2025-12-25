@@ -16,6 +16,26 @@ router.post('/uptime/check', async (req, res) => {
     }
 });
 
+// GET service logo from DB
+router.get('/:id/logo', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [rows]: any = await pool.query('SELECT logo_blob, logo_mime_type FROM services WHERE id = ?', [id]);
+
+        if (rows.length === 0 || !rows[0].logo_blob) {
+            return res.status(404).send('Logo not found');
+        }
+
+        const { logo_blob, logo_mime_type } = rows[0];
+        res.setHeader('Content-Type', logo_mime_type || 'image/png');
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.send(logo_blob);
+    } catch (error) {
+        console.error('Error fetching logo:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
 // GET all services with category and type names
 router.get('/', async (req, res) => {
     try {
@@ -55,6 +75,7 @@ router.get('/', async (req, res) => {
             environment: row.environmentName,
             team: row.teamName,
             isFeatured: Boolean(row.isFeatured),
+            logo_url: row.logo_blob ? `/api/services/${row.id}/logo` : row.logo_url,
             tags: tagsByServiceId[row.id] || []
         }));
 
@@ -74,24 +95,37 @@ router.post('/', async (req, res) => {
             name, category_id, service_type_id, status, url,
             ip_address, port, owner, environment_id, team_id, notes, isFeatured,
             documentation, dashboard, db_connection, db_username, db_password, pdb_name,
-            service_username, service_password, tags
+            service_username, service_password, logo_url, tags
         } = req.body;
 
         const sanitizedEnvId = environment_id || null;
         const sanitizedTeamId = team_id || null;
+
+        let logoBlob = null;
+        let logoMimeType = null;
+        let finalLogoUrl = logo_url;
+
+        if (logo_url && logo_url.startsWith('data:')) {
+            const matches = logo_url.match(/^data:([A-Za-z-+/]+);base64,(.+)$/);
+            if (matches && matches.length === 3) {
+                logoMimeType = matches[1];
+                logoBlob = Buffer.from(matches[2], 'base64');
+                finalLogoUrl = null;
+            }
+        }
 
         const [result]: any = await connection.query(
             `INSERT INTO services (
                 name, category_id, service_type_id, status, url,
                 ip_address, port, owner, environment_id, team_id, notes, isFeatured,
                 documentation, dashboard, db_connection, db_username, db_password, pdb_name,
-                service_username, service_password
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                service_username, service_password, logo_url, logo_blob, logo_mime_type
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 name, category_id, service_type_id, status || 'Active', url,
                 ip_address, port, owner, sanitizedEnvId, sanitizedTeamId, notes, isFeatured ? 1 : 0,
                 documentation, dashboard, db_connection, db_username, db_password, pdb_name,
-                service_username, service_password
+                service_username, service_password, finalLogoUrl, logoBlob, logoMimeType
             ]
         );
 
@@ -134,27 +168,67 @@ router.put('/:id', async (req, res) => {
             name, category_id, service_type_id, status, url,
             ip_address, port, owner, environment_id, team_id, notes, isFeatured,
             documentation, dashboard, db_connection, db_username, db_password, pdb_name,
-            service_username, service_password, tags
+            service_username, service_password, logo_url, tags
         } = req.body;
 
         const sanitizedEnvId = environment_id || null;
         const sanitizedTeamId = team_id || null;
 
-        await connection.query(
-            `UPDATE services SET 
+        let logoBlob = null;
+        let logoMimeType = null;
+        let finalLogoUrl = logo_url;
+
+        // If it's a data URI, it's a new upload to store in DB
+        if (logo_url && logo_url.startsWith('data:')) {
+            const matches = logo_url.match(/^data:([A-Za-z-+/]+);base64,(.+)$/);
+            if (matches && matches.length === 3) {
+                logoMimeType = matches[1];
+                logoBlob = Buffer.from(matches[2], 'base64');
+                finalLogoUrl = null;
+            }
+        }
+        // If it starts with /api/services, it's our DB logo URL - DON'T update blob columns unless we want to clear them
+        else if (logo_url && logo_url.includes('/logo')) {
+            // Keep existing blob by not including them in the SQL update if we logic it out, 
+            // but for simplicity we'll just handle it by selecting them first or using COALESCE if needed.
+            // Simplified: if logo_url is the same as current API URL, we don't change blobs.
+        }
+
+        let updateQuery = `UPDATE services SET 
                 name = ?, category_id = ?, service_type_id = ?, status = ?, 
                 url = ?, ip_address = ?, port = ?, 
                 owner = ?, environment_id = ?, team_id = ?, notes = ?, isFeatured = ?, 
                 documentation = ?, dashboard = ?, db_connection = ?, 
-                db_username = ?, db_password = ?, pdb_name = ?, service_username = ?, service_password = ?
-            WHERE id = ?`,
-            [
-                name, category_id, service_type_id, status, url,
-                ip_address, port, owner, sanitizedEnvId, sanitizedTeamId, notes, isFeatured ? 1 : 0,
-                documentation, dashboard, db_connection, db_username, db_password, pdb_name,
-                service_username, service_password, id
-            ]
-        );
+                db_username = ?, db_password = ?, pdb_name = ?, service_username = ?, service_password = ?`;
+
+        let updateParams = [
+            name, category_id, service_type_id, status, url,
+            ip_address, port, owner, sanitizedEnvId, sanitizedTeamId, notes, isFeatured ? 1 : 0,
+            documentation, dashboard, db_connection, db_username, db_password, pdb_name,
+            service_username, service_password
+        ];
+
+        // Handle logo update specifically
+        if (logo_url && logo_url.startsWith('data:')) {
+            updateQuery += `, logo_url = NULL, logo_blob = ?, logo_mime_type = ?`;
+            updateParams.push(logoBlob, logoMimeType);
+        } else if (!logo_url) {
+            // Clear logo
+            updateQuery += `, logo_url = NULL, logo_blob = NULL, logo_mime_type = NULL`;
+        } else if (!logo_url.includes('/logo')) {
+            // New external URL
+            updateQuery += `, logo_url = ?, logo_blob = NULL, logo_mime_type = NULL`;
+            updateParams.push(logo_url);
+        } else {
+            // It's the current DB logo URL, explicitly keep it in logo_url
+            updateQuery += `, logo_url = ?`;
+            updateParams.push(logo_url);
+        }
+
+        updateQuery += ` WHERE id = ?`;
+        updateParams.push(id);
+
+        await connection.query(updateQuery, updateParams);
 
         // Update tags
         if (tags && Array.isArray(tags)) {

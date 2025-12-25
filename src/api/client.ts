@@ -274,5 +274,17 @@ export const api = {
         if (!response.ok) {
             throw new Error('Failed to delete team');
         }
+    },
+    uploadIcon: async (file: File): Promise<{ url: string }> => {
+        const formData = new FormData();
+        formData.append('icon', file);
+        const response = await fetch(`${API_BASE_URL.replace('/api', '')}/api/upload/icon`, {
+            method: 'POST',
+            body: formData
+        });
+        if (!response.ok) {
+            throw new Error('Failed to upload icon');
+        }
+        return response.json();
     }
 };

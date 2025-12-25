@@ -39,7 +39,7 @@ export interface Service {
   url: string;
   ip_address?: string;
   port?: number;
-  owner: string;
+  owner?: string;
   team: string;
   team_id?: string;
   notes?: string;
@@ -53,5 +53,6 @@ export interface Service {
   pdb_name?: string;
   service_username?: string;
   service_password?: string;
+  logo_url?: string;
   tags?: Tag[];
 }

@@ -1,14 +1,14 @@
 import { Service } from '../types/service';
 
 export const downloadServiceDetails = (service: Service) => {
-    const content = `
+  const content = `
 SERVICE DETAILS: ${service.name}
 ----------------------------------------
 ID: ${service.id}
 Status: ${service.status}
 Environment: ${service.environment}
 Category: ${service.category}
-Type: ${service.serviceTypeName || 'Generic'}
+Type: ${service.serviceTypeName || 'General'}
 Team: ${service.team}
 
 INFRASTRUCTURE
@@ -35,13 +35,13 @@ ${service.notes || 'No notes available.'}
 Last Updated: ${new Date(service.lastUpdated).toLocaleString()}
   `.trim();
 
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${service.name.replace(/\s+/g, '_')}_details.txt`;
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${service.name.replace(/\s+/g, '_')}_details.txt`;
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
 };

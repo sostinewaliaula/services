@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Service } from '../types/service';
 import { Card } from './ui/Card';
 import { Badge } from './ui/Badge';
+import { ServiceIcon } from './ServiceIcon';
 import { Database, Server, Users, Package, Ticket, CheckSquare, Globe, Hash, Link as LinkIcon, Copy, Check, ExternalLink, Key, Tag, Download } from 'lucide-react';
 import { downloadServiceDetails } from '../utils/downloadService';
 
@@ -30,25 +31,6 @@ export function ServiceCard({ service, onClick }: ServiceCardProps) {
   const handleDownload = (e: React.MouseEvent) => {
     e.stopPropagation();
     downloadServiceDetails(service);
-  };
-
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case 'Databases':
-        return <Database className="h-4 w-4 text-blue-500" />;
-      case 'Application Servers':
-        return <Server className="h-4 w-4 text-indigo-500" />;
-      case 'HR Systems':
-        return <Users className="h-4 w-4 text-pink-500" />;
-      case 'Asset Management':
-        return <Package className="h-4 w-4 text-orange-500" />;
-      case 'Ticketing Systems':
-        return <Ticket className="h-4 w-4 text-purple-500" />;
-      case 'Task Trackers':
-        return <CheckSquare className="h-4 w-4 text-green-500" />;
-      default:
-        return <div className="h-4 w-4 text-slate-500" />;
-    }
   };
 
   const getStatusVariant = (status: string) => {
@@ -83,8 +65,13 @@ export function ServiceCard({ service, onClick }: ServiceCardProps) {
     <Card hoverEffect={true} onClick={() => onClick(service)} className="h-full flex flex-col group">
       <div className="p-4 flex flex-col h-full">
         <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-slate-50 rounded-lg border border-slate-100">{getCategoryIcon(service.category)}</div>
+          <div className="flex items-center gap-3">
+            <ServiceIcon
+              name={service.name}
+              category={service.category}
+              logoUrl={service.logo_url}
+              size="md"
+            />
             <div className="flex flex-col">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{service.category}</span>
               <span className="text-[11px] font-bold text-blue-600 flex items-center gap-1">

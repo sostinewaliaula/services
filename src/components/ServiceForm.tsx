@@ -5,7 +5,7 @@ import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import { Select } from './ui/Select';
 import { SearchableSelect } from './ui/SearchableSelect';
-import { Globe, Database, Info, X, Tag as TagIcon, Eye, EyeOff, Key } from 'lucide-react';
+import { Globe, Database, Info, X, Tag as TagIcon, Eye, EyeOff, Key, ImageIcon } from 'lucide-react';
 
 interface ServiceFormProps {
     initialData?: Partial<Service>;
@@ -19,7 +19,7 @@ interface ServiceFormProps {
 }
 
 export function ServiceForm({ initialData, categories, serviceTypes = [], environments = [], teams = [], onSubmit, onCancel, isLoading }: ServiceFormProps) {
-    const [formData, setFormData] = useState<Partial<Service>>({
+    const [formData, setFormData] = useState<Partial<Service>>(initialData || {
         name: '',
         category_id: '',
         service_type_id: '',
@@ -39,17 +39,25 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
         url: '',
         status: 'Active' as any,
         db_connection: '',
-        tags: [],
-        ...initialData
+        logo_url: ''
     });
 
     const [selectedTags, setSelectedTags] = useState<string[]>(
         initialData?.tags?.map(t => typeof t === 'string' ? t : t.name) || []
     );
-    const [showDbPassword, setShowDbPassword] = useState(false);
+    const [showDBPassword, setShowDBPassword] = useState(false);
     const [showServicePassword, setShowServicePassword] = useState(false);
+
+    useEffect(() => {
+        if (initialData) {
+            setFormData(initialData);
+            setSelectedTags(initialData.tags?.map(t => typeof t === 'string' ? t : t.name) || []);
+        }
+    }, [initialData]);
+
     const [availableCategories, setAvailableCategories] = useState<ServiceCategoryData[]>(categories);
     const [availableTags, setAvailableTags] = useState<Tag[]>([]);
+    const [isUploading, setIsUploading] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
@@ -68,6 +76,22 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
             [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked :
                 name === 'port' ? (value ? parseInt(value) : undefined) : value
         }));
+    };
+
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setIsUploading(true);
+        try {
+            const { url } = await api.uploadIcon(file);
+            setFormData(prev => ({ ...prev, logo_url: url }));
+        } catch (error) {
+            console.error('Upload failed:', error);
+            alert('Icon upload failed. Please try again.');
+        } finally {
+            setIsUploading(false);
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -167,6 +191,54 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
                                 ))}
                             </Select>
 
+                            <div className="space-y-1">
+                                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide">
+                                    Service Icon
+                                </label>
+                                <div className="flex items-center gap-3">
+                                    <div className="relative group">
+                                        <div className="h-12 w-12 rounded-xl bg-slate-50 border-2 border-dashed border-slate-200 flex items-center justify-center overflow-hidden transition-colors group-hover:border-blue-400">
+                                            {formData.logo_url ? (
+                                                <img
+                                                    src={(formData.logo_url.startsWith('http') || formData.logo_url.startsWith('data:')) ? formData.logo_url : `http://localhost:5000${formData.logo_url}`}
+                                                    alt="Preview"
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                <ImageIcon className="h-5 w-5 text-slate-400" />
+                                            )}
+                                            {isUploading && (
+                                                <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
+                                                    <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <input
+                                            type="file"
+                                            className="absolute inset-0 opacity-0 cursor-pointer"
+                                            onChange={handleFileChange}
+                                            accept="image/*"
+                                            disabled={isUploading}
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="text-[10px] text-slate-500 leading-tight">
+                                            {formData.logo_url ? 'Click to change icon' : 'Upload PNG, JPG or SVG'}
+                                        </p>
+                                        <p className="text-[10px] text-slate-400">Max size 5MB</p>
+                                    </div>
+                                    {formData.logo_url && (
+                                        <button
+                                            type="button"
+                                            onClick={() => setFormData(prev => ({ ...prev, logo_url: '' }))}
+                                            className="p-1 hover:bg-red-50 text-red-400 rounded transition-colors"
+                                        >
+                                            <X className="h-3 w-3" />
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
                             <SearchableSelect
                                 label="Category"
                                 value={formData.category_id || ''}
@@ -214,17 +286,17 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
                                         <Input
                                             label="DB Password"
                                             name="db_password"
-                                            type={showDbPassword ? "text" : "password"}
+                                            type={showDBPassword ? "text" : "password"}
                                             value={formData.db_password || ''}
                                             onChange={handleChange}
                                             placeholder="Database password"
                                         />
                                         <button
                                             type="button"
-                                            onClick={() => setShowDbPassword(!showDbPassword)}
+                                            onClick={() => setShowDBPassword(!showDBPassword)}
                                             className="absolute right-3 top-[32px] text-slate-400 hover:text-slate-600"
                                         >
-                                            {showDbPassword ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                                            {showDBPassword ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
                                         </button>
                                     </div>
                                 </div>

@@ -4,6 +4,8 @@ import { Modal } from './ui/Modal';
 import { Badge } from './ui/Badge';
 import { Button } from './ui/Button';
 import { ServiceForm } from './ServiceForm';
+import { useAuth } from '../context/AuthContext';
+import { ServiceIcon } from './ServiceIcon';
 import { ExternalLink, FileText, BarChart2, Clock, Shield, Globe, AlertTriangle, Users, Key, Database, Edit, Trash2, Tag, Copy, Check, Eye, EyeOff, Download } from 'lucide-react';
 import { downloadServiceDetails } from '../utils/downloadService';
 
@@ -35,6 +37,7 @@ export function ServiceDetailModal({
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [showDbPassword, setShowDbPassword] = useState(false);
   const [showServicePassword, setShowServicePassword] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   if (!service) return null;
 
@@ -126,41 +129,51 @@ export function ServiceDetailModal({
         <div className="p-6 space-y-6">
           {/* Header Section */}
           <div className="flex justify-between items-start">
-            <div>
-              <div className="flex items-center gap-3 mb-1">
-                <h2 className="text-2xl font-bold text-slate-900">{service.name}</h2>
-                {service.url ? (
-                  <Badge variant={getStatusVariant(service.status)}>{service.status}</Badge>
-                ) : (
-                  <Badge variant="neutral">No URL</Badge>
+            <div className="flex items-start gap-4">
+              <ServiceIcon
+                name={service.name}
+                category={service.category}
+                logoUrl={service.logo_url}
+                size="lg"
+                className="shadow-md"
+              />
+              <div>
+                <div className="flex items-center gap-3 mb-1">
+                  <h2 className="text-2xl font-bold text-slate-900">{service.name}</h2>
+                  {service.url ? (
+                    <Badge variant={getStatusVariant(service.status)}>{service.status}</Badge>
+                  ) : (
+                    <Badge variant="neutral">No URL</Badge>
+                  )}
+                </div>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded flex items-center gap-1 border border-blue-100 uppercase tracking-wider">
+                    <Tag className="h-3 w-3" /> {service.serviceTypeName || 'Generic'}
+                  </span>
+                  <span className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                    {service.category}
+                  </span>
+                </div>
+
+                {service.tags && service.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {service.tags.map(tag => (
+                      <span key={tag.id} className="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded-full border border-slate-200">
+                        #{tag.name}
+                      </span>
+                    ))}
+                  </div>
                 )}
               </div>
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded flex items-center gap-1 border border-blue-100 uppercase tracking-wider">
-                  <Tag className="h-3 w-3" /> {service.serviceTypeName || 'Generic'}
-                </span>
-                <span className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
-                  {service.category}
-                </span>
-              </div>
-
-              {service.tags && service.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {service.tags.map(tag => (
-                    <span key={tag.id} className="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded-full border border-slate-200">
-                      #{tag.name}
-                    </span>
-                  ))}
-                </div>
-              )}
             </div>
+
             <div className="flex gap-2">
-              {onUpdate && (
+              {onUpdate && isAuthenticated && (
                 <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
                   <Edit className="h-4 w-4" />
                 </Button>
               )}
-              {onDelete && (
+              {onDelete && isAuthenticated && (
                 <Button variant="outline" size="sm" className="text-red-500 hover:text-red-600 hover:bg-red-50" onClick={handleDelete}>
                   <Trash2 className="h-4 w-4" />
                 </Button>
