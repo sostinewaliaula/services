@@ -9,10 +9,10 @@ export function Card({
   ...props
 }: CardProps) {
   return <div className={`
-        bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden
-        ${hoverEffect ? 'transition-all duration-200 hover:shadow-md hover:-translate-y-1 hover:border-blue-200 cursor-pointer' : ''}
+        bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden
+        ${hoverEffect ? 'transition-all duration-200 hover:shadow-md hover:-translate-y-1 hover:border-blue-200 dark:hover:border-blue-500/50 cursor-pointer' : ''}
         ${className}
       `} {...props}>
-      {children}
-    </div>;
+    {children}
+  </div>;
 }

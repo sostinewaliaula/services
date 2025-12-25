@@ -23,7 +23,8 @@ import {
     RefreshCcw,
     LayoutDashboard,
     Users,
-    Activity
+    Activity,
+    X
 } from 'lucide-react';
 
 export function ManageServices() {
@@ -573,16 +574,9 @@ export function ManageServices() {
                     // However, update often needs ID if strict relation, OR name if lookup.
                     // Let's check `Service` type again later if this fails, but usually `category` matches `category` name in dropdowns.
                     // The dropdowns in filters use names. 
-                    // Wait, `updateService` usually takes `Partial<Service>`.
-                    // `Service` has `category: string`.
-                    // But backend might need `category_id`.
-                    // Let's rely on what `ServiceForm` does. `ServiceForm` sends `category_id`.
-
-                    // Actually, I should probably check if I need to map names to IDs or if I'm storing IDs in `bulkEditValue`.
-                    // I will store IDs in `bulkEditValue` for everything except maybe Enum fields like Environment/Status if they are just strings.
                     // Wait, `Service` type has `category: ServiceCategory` which is string (name) ??
                     // Let's look at `Service` type again.
-                    // Line 32: `category: ServiceCategory; // string`
+                    // Line 32: `category: string;`
                     // Line 33: `category_id?: string;`
 
                     // The backend `updateService` likely handles `category_id`.
@@ -693,7 +687,7 @@ export function ManageServices() {
     }, [teams, searchTerm]);
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
             <Header
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
@@ -716,16 +710,16 @@ export function ManageServices() {
                 }}
             />
 
-            <div className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-[65px] z-20 shadow-sm">
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-[65px] z-20 shadow-sm">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         {/* Tab Switcher */}
-                        <div className="flex bg-slate-100 rounded-lg p-1 border border-slate-200 self-start">
+                        <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-1 border border-slate-200 dark:border-slate-700 self-start">
                             <button
                                 onClick={() => setActiveTab('services')}
                                 className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === 'services'
-                                    ? 'bg-white text-blue-600 shadow-sm border border-slate-200'
-                                    : 'text-slate-500 hover:bg-slate-50'
+                                    ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-200 dark:border-slate-700'
+                                    : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'
                                     }`}
                             >
                                 Services
@@ -733,8 +727,8 @@ export function ManageServices() {
                             <button
                                 onClick={() => setActiveTab('categories')}
                                 className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === 'categories'
-                                    ? 'bg-white text-blue-600 shadow-sm border border-slate-200'
-                                    : 'text-slate-500 hover:bg-slate-50'
+                                    ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-200 dark:border-slate-700'
+                                    : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'
                                     }`}
                             >
                                 Categories
@@ -742,8 +736,8 @@ export function ManageServices() {
                             <button
                                 onClick={() => setActiveTab('types')}
                                 className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === 'types'
-                                    ? 'bg-white text-blue-600 shadow-sm border border-slate-200'
-                                    : 'text-slate-500 hover:bg-slate-50'
+                                    ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-200 dark:border-slate-700'
+                                    : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'
                                     }`}
                             >
                                 Types
@@ -751,8 +745,8 @@ export function ManageServices() {
                             <button
                                 onClick={() => setActiveTab('tags')}
                                 className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === 'tags'
-                                    ? 'bg-white text-blue-600 shadow-sm border border-slate-200'
-                                    : 'text-slate-500 hover:bg-slate-50'
+                                    ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-200 dark:border-slate-700'
+                                    : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'
                                     }`}
                             >
                                 Tags
@@ -760,8 +754,8 @@ export function ManageServices() {
                             <button
                                 onClick={() => setActiveTab('environments')}
                                 className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === 'environments'
-                                    ? 'bg-white text-blue-600 shadow-sm border border-slate-200'
-                                    : 'text-slate-500 hover:bg-slate-50'
+                                    ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-200 dark:border-slate-700'
+                                    : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'
                                     }`}
                             >
                                 Environments
@@ -769,8 +763,8 @@ export function ManageServices() {
                             <button
                                 onClick={() => setActiveTab('teams')}
                                 className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === 'teams'
-                                    ? 'bg-white text-blue-600 shadow-sm border border-slate-200'
-                                    : 'text-slate-500 hover:bg-slate-50'
+                                    ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-200 dark:border-slate-700'
+                                    : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'
                                     }`}
                             >
                                 Teams
@@ -788,7 +782,7 @@ export function ManageServices() {
                                 {activeTab === 'services' && (
                                     <>
                                         <select
-                                            className="text-xs font-semibold bg-white border border-slate-200 rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all hover:border-slate-300"
+                                            className="text-xs font-semibold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all hover:border-slate-300 dark:hover:border-slate-600"
                                             value={selectedCategory}
                                             onChange={(e) => setSelectedCategory(e.target.value)}
                                         >
@@ -799,7 +793,7 @@ export function ManageServices() {
                                         </select>
 
                                         <select
-                                            className="text-xs font-semibold bg-white border border-slate-200 rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all hover:border-slate-300"
+                                            className="text-xs font-semibold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all hover:border-slate-300 dark:hover:border-slate-600"
                                             value={selectedEnv}
                                             onChange={(e) => setSelectedEnv(e.target.value)}
                                         >
@@ -812,7 +806,7 @@ export function ManageServices() {
                                 )}
 
                                 <select
-                                    className="text-xs font-semibold bg-white border border-slate-200 rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all hover:border-slate-300"
+                                    className="text-xs font-semibold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all hover:border-slate-300 dark:hover:border-slate-600"
                                     value={selectedType}
                                     onChange={(e) => setSelectedType(e.target.value)}
                                 >
@@ -824,7 +818,7 @@ export function ManageServices() {
 
                                 {activeTab === 'services' && (
                                     <select
-                                        className="text-xs font-semibold bg-white border border-slate-200 rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all hover:border-slate-300"
+                                        className="text-xs font-semibold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 transition-all hover:border-slate-300 dark:hover:border-slate-600"
                                         value={selectedStatus}
                                         onChange={(e) => setSelectedStatus(e.target.value)}
                                     >
@@ -863,10 +857,10 @@ export function ManageServices() {
                                             showToast('Failed to start uptime check', 'error');
                                         }
                                     }}
-                                    className="px-3 py-1.5 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 hover:text-blue-600 transition-all shadow-sm flex items-center gap-2"
+                                    className="px-3 py-1.5 text-xs font-bold text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 transition-all shadow-sm flex items-center gap-2"
                                     title="Check Service Status"
                                 >
-                                    <Activity className="h-3.5 w-3.5" />
+                                    <Activity className="h-3.5 w-3.5 text-blue-500" />
                                     <span className="hidden lg:inline">Check Status</span>
                                 </button>
                             </div>
@@ -883,9 +877,9 @@ export function ManageServices() {
                 ) : (
                     <div className="space-y-6">
                         {activeTab === 'services' ? (
-                            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                                <div className="p-6 border-b border-slate-100 flex justify-between items-center">
-                                    <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                                <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                         <Settings className="h-5 w-5 text-blue-600" />
                                         All Services
                                     </h2>
@@ -919,7 +913,7 @@ export function ManageServices() {
 
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left border-collapse">
-                                        <thead className="bg-slate-50/50 border-b border-slate-200">
+                                        <thead className="bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
                                             <tr>
                                                 <th className="px-6 py-4 w-10">
                                                     <input
@@ -930,7 +924,7 @@ export function ManageServices() {
                                                     />
                                                 </th>
                                                 <th
-                                                    className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:text-blue-600 transition-colors"
+                                                    className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                                                     onClick={() => handleSort('name')}
                                                 >
                                                     <div className="flex items-center gap-2">
@@ -939,7 +933,7 @@ export function ManageServices() {
                                                     </div>
                                                 </th>
                                                 <th
-                                                    className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:text-blue-600 transition-colors"
+                                                    className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                                                     onClick={() => handleSort('category')}
                                                 >
                                                     <div className="flex items-center gap-2">
@@ -960,11 +954,11 @@ export function ManageServices() {
                                                 <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-slate-100 bg-white">
+                                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800 bg-white dark:bg-slate-900">
                                             {filteredAndSortedServices.map((service) => (
                                                 <tr
                                                     key={service.id}
-                                                    className={`hover:bg-blue-50/30 transition-colors group ${selectedServices.has(service.id) ? 'bg-blue-50/50' : ''}`}
+                                                    className={`hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors group ${selectedServices.has(service.id) ? 'bg-blue-50/50 dark:bg-blue-900/20' : ''}`}
                                                 >
                                                     <td className="px-6 py-4">
                                                         <input
@@ -983,15 +977,15 @@ export function ManageServices() {
                                                                 size="sm"
                                                             />
                                                             <div className="flex flex-col">
-                                                                <span className="font-semibold text-slate-900 leading-none mb-1">{service.name}</span>
+                                                                <span className="font-semibold text-slate-900 dark:text-white leading-none mb-1">{service.name}</span>
                                                                 {service.serviceTypeName === 'Database' ? (
-                                                                    <span className="text-[10px] font-mono text-slate-500">
+                                                                    <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">
                                                                         {service.ip_address}
                                                                         {service.port ? `/${service.port}` : ''}
                                                                         {service.pdb_name ? `/${service.pdb_name}` : ''}
                                                                     </span>
                                                                 ) : (
-                                                                    <span className="text-xs text-blue-600 truncate max-w-[250px] hover:underline cursor-pointer">
+                                                                    <span className="text-xs text-blue-600 dark:text-blue-400 truncate max-w-[250px] hover:underline cursor-pointer">
                                                                         {service.url}
                                                                     </span>
                                                                 )}
@@ -1000,18 +994,18 @@ export function ManageServices() {
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         <div className="flex flex-col gap-1">
-                                                            <span className="text-xs font-bold text-slate-400 uppercase tracking-tight flex items-center gap-1">
+                                                            <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-tight flex items-center gap-1">
                                                                 <Tag className="h-3 w-3" /> {service.serviceTypeName || 'Generic'}
                                                             </span>
-                                                            <span className="text-sm font-medium text-slate-600 bg-slate-100 px-2 py-1 rounded-md self-start">
+                                                            <span className="text-sm font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md self-start">
                                                                 {service.category}
                                                             </span>
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <span className={`text-xs font-bold px-2 py-1 rounded border ${service.environment === 'Production' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                                                            service.environment === 'Test' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' :
-                                                                'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                                        <span className={`text-xs font-bold px-2 py-1 rounded border ${service.environment === 'Production' ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-900/30' :
+                                                            service.environment === 'Test' ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 border-indigo-200 dark:border-indigo-900/30' :
+                                                                'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900/30'
                                                             }`}>
                                                             {service.environment}
                                                         </span>
@@ -1020,7 +1014,7 @@ export function ManageServices() {
                                                         <div className="flex flex-wrap gap-1 max-w-[150px]">
                                                             {service.tags && service.tags.length > 0 ? (
                                                                 service.tags.map(tag => (
-                                                                    <span key={tag.id} className="bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded text-[10px] font-bold border border-blue-100">
+                                                                    <span key={tag.id} className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-1.5 py-0.5 rounded text-[10px] font-bold border border-blue-100 dark:border-blue-900/30">
                                                                         {tag.name}
                                                                     </span>
                                                                 ))
@@ -1032,14 +1026,14 @@ export function ManageServices() {
                                                     <td className="px-6 py-4 text-right space-x-1">
                                                         <button
                                                             onClick={() => setEditingService(service)}
-                                                            className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                                                            className="p-2 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all"
                                                             title="Edit"
                                                         >
                                                             <Edit className="h-4 w-4" />
                                                         </button>
                                                         <button
                                                             onClick={() => handleDeleteService(service.id, service.name)}
-                                                            className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                                                            className="p-2 text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
                                                             title="Delete"
                                                         >
                                                             <Trash2 className="h-4 w-4" />
@@ -1053,9 +1047,9 @@ export function ManageServices() {
                             </div>
                         ) : activeTab === 'categories' ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-                                    <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                                        <Tag className="h-5 w-5 text-blue-600" />
+                                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                                        <Tag className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                                         Manage Categories
                                     </h2>
 
@@ -1066,13 +1060,13 @@ export function ManageServices() {
                                                     typeCategories[type.id]?.some(c => c.id === cat.id)
                                                 );
                                                 return (
-                                                    <div key={cat.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-100 group">
+                                                    <div key={cat.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 group">
                                                         <div className="flex flex-col gap-1">
-                                                            <span className="font-medium text-slate-700">{cat.name}</span>
+                                                            <span className="font-medium text-slate-700 dark:text-slate-200">{cat.name}</span>
                                                             {catTypes.length > 0 && (
                                                                 <div className="flex flex-wrap gap-1">
                                                                     {catTypes.map(type => (
-                                                                        <span key={type.id} className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-100/50 text-blue-600 border border-blue-200/50">
+                                                                        <span key={type.id} className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-100/50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 border border-blue-200/50 dark:border-blue-800/50">
                                                                             {type.name}
                                                                         </span>
                                                                     ))}
@@ -1090,14 +1084,14 @@ export function ManageServices() {
                                                                     );
                                                                     setSelectedCategoryTypes(new Set(associatedTypes));
                                                                 }}
-                                                                className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-white rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100"
+                                                                className="p-1.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100 dark:hover:border-slate-600"
                                                                 title="Edit Category"
                                                             >
                                                                 <Edit className="h-3.5 w-3.5" />
                                                             </button>
                                                             <button
                                                                 onClick={() => handleDeleteCategory(cat.id, cat.name)}
-                                                                className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-white rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100"
+                                                                className="p-1.5 text-slate-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100 dark:hover:border-slate-600"
                                                                 title="Delete Category"
                                                             >
                                                                 <Trash2 className="h-3.5 w-3.5" />
@@ -1110,42 +1104,42 @@ export function ManageServices() {
                                     </div>
                                 </div>
 
-                                <div className="bg-blue-50/50 rounded-xl border border-blue-100 p-6 flex flex-col items-center justify-center text-center">
-                                    <div className="bg-blue-600/10 p-4 rounded-full mb-4">
-                                        <Settings className="h-8 w-8 text-blue-600" />
+                                <div className="bg-blue-50/50 dark:bg-blue-900/30 rounded-xl border border-blue-100 dark:border-blue-900/40 p-6 flex flex-col items-center justify-center text-center">
+                                    <div className="bg-blue-600/10 dark:bg-blue-600/20 p-4 rounded-full mb-4">
+                                        <Settings className="h-8 w-8 text-blue-600 dark:text-blue-400" />
                                     </div>
-                                    <h3 className="font-bold text-slate-900 mb-1">Hierarchy System</h3>
-                                    <p className="text-sm text-slate-500 max-w-[200px]">Categories organize your services into high-level groups.</p>
+                                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">Hierarchy System</h3>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400 max-w-[200px]">Categories organize your services into high-level groups.</p>
                                 </div>
                             </div>
                         ) : activeTab === 'types' ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-                                    <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                                        <LayoutDashboard className="h-5 w-5 text-blue-600" />
+                                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                                        <LayoutDashboard className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                                         Manage Service Types
                                     </h2>
 
                                     <div className="space-y-4">
                                         {filteredTypes.map((type) => (
-                                            <div key={type.id} className="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
+                                            <div key={type.id} className="border border-slate-200 dark:border-slate-700 rounded-lg p-4 bg-slate-50/50 dark:bg-slate-800/30">
                                                 {/* Type name and actions */}
                                                 <div className="flex items-center justify-between mb-3">
-                                                    <span className="font-bold text-slate-900">{type.name}</span>
+                                                    <span className="font-bold text-slate-900 dark:text-white">{type.name}</span>
                                                     <div className="flex items-center gap-1">
                                                         <button
                                                             onClick={() => {
                                                                 setEditingType(type);
                                                                 setNewTypeName(type.name);
                                                             }}
-                                                            className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-white rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100"
+                                                            className="p-1.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100 dark:hover:border-slate-600"
                                                             title="Edit Type"
                                                         >
                                                             <Edit className="h-3.5 w-3.5" />
                                                         </button>
                                                         <button
                                                             onClick={() => handleDeleteType(type.id, type.name)}
-                                                            className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-white rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100"
+                                                            className="p-1.5 text-slate-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100 dark:hover:border-slate-600"
                                                             title="Delete Type"
                                                         >
                                                             <Trash2 className="h-3.5 w-3.5" />
@@ -1155,12 +1149,12 @@ export function ManageServices() {
 
                                                 {/* Associated Categories */}
                                                 <div className="mb-3">
-                                                    <label className="text-xs font-semibold text-slate-600 mb-1.5 block">
+                                                    <label className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 block">
                                                         Categories
                                                     </label>
                                                     <div className="flex flex-wrap gap-1.5 mb-2">
                                                         {typeCategories[type.id]?.map(cat => (
-                                                            <span key={cat.id} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200 rounded-full">
+                                                            <span key={cat.id} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 rounded-full">
                                                                 {cat.name}
                                                                 <button
                                                                     onClick={() => handleRemoveCategoryFromType(type.id, cat.id)}
@@ -1177,7 +1171,7 @@ export function ManageServices() {
                                                             handleAddCategoryToType(type.id, e.target.value);
                                                             e.target.value = '';
                                                         }}
-                                                        className="text-xs px-2 py-1 border border-slate-200 rounded bg-white hover:border-blue-300 transition-colors"
+                                                        className="text-xs px-2 py-1 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-200 hover:border-blue-300 dark:hover:border-blue-500 transition-colors"
                                                     >
                                                         <option value="">+ Add Category</option>
                                                         {categories
@@ -1196,11 +1190,11 @@ export function ManageServices() {
                                                     </label>
                                                     <div className="flex flex-wrap gap-1.5 mb-2">
                                                         {typeTags[type.id]?.map(tag => (
-                                                            <span key={tag.id} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-orange-50 text-orange-700 border border-orange-200 rounded-full">
+                                                            <span key={tag.id} className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-orange-50 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800 rounded-full">
                                                                 {tag.name}
                                                                 <button
                                                                     onClick={() => handleRemoveTagFromType(type.id, tag.id)}
-                                                                    className="hover:text-red-600 transition-colors"
+                                                                    className="hover:text-red-600 dark:hover:text-red-400 transition-colors"
                                                                     title="Remove tag"
                                                                 >
                                                                     ×
@@ -1213,7 +1207,7 @@ export function ManageServices() {
                                                             handleAddTagToType(type.id, e.target.value);
                                                             e.target.value = '';
                                                         }}
-                                                        className="text-xs px-2 py-1 border border-slate-200 rounded bg-white hover:border-orange-300 transition-colors"
+                                                        className="text-xs px-2 py-1 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-200 hover:border-orange-300 dark:hover:border-orange-500 transition-colors"
                                                     >
                                                         <option value="">+ Add Tag</option>
                                                         {tags
@@ -1229,19 +1223,19 @@ export function ManageServices() {
                                     </div>
                                 </div>
 
-                                <div className="bg-indigo-50/50 rounded-xl border border-indigo-100 p-6 flex flex-col items-center justify-center text-center">
-                                    <div className="bg-indigo-600/10 p-4 rounded-full mb-4">
-                                        <LayoutDashboard className="h-8 w-8 text-indigo-600" />
+                                <div className="bg-indigo-50/50 dark:bg-indigo-900/30 rounded-xl border border-indigo-100 dark:border-indigo-900/40 p-6 flex flex-col items-center justify-center text-center">
+                                    <div className="bg-indigo-600/10 dark:bg-indigo-600/20 p-4 rounded-full mb-4">
+                                        <LayoutDashboard className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
                                     </div>
-                                    <h3 className="font-bold text-slate-900 mb-1">Operational Types</h3>
-                                    <p className="text-sm text-slate-500 max-w-[200px]">Types define the behavior and required fields of your services.</p>
+                                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">Operational Types</h3>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400 max-w-[200px]">Types define the behavior and required fields of your services.</p>
                                 </div>
                             </div>
                         ) : activeTab === 'tags' ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-                                    <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                                        <Tag className="h-5 w-5 text-blue-600" />
+                                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                                        <Tag className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                                         Manage Tags
                                     </h2>
 
@@ -1252,16 +1246,16 @@ export function ManageServices() {
                                                     typeTags[type.id]?.some(t => t.id === tag.id)
                                                 );
                                                 return (
-                                                    <div key={tag.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-100 group">
+                                                    <div key={tag.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 group">
                                                         <div className="flex flex-col gap-1">
                                                             <div className="flex items-center gap-2">
-                                                                <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-                                                                <span className="font-medium text-slate-700">{tag.name}</span>
+                                                                <div className="w-2 h-2 rounded-full bg-blue-500 dark:bg-blue-400"></div>
+                                                                <span className="font-medium text-slate-700 dark:text-slate-200">{tag.name}</span>
                                                             </div>
                                                             {tagTypes.length > 0 && (
                                                                 <div className="flex flex-wrap gap-1">
                                                                     {tagTypes.map(type => (
-                                                                        <span key={type.id} className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-orange-100/50 text-orange-600 border border-orange-200/50">
+                                                                        <span key={type.id} className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-orange-100/50 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 border border-orange-200/50 dark:border-orange-800/50">
                                                                             {type.name}
                                                                         </span>
                                                                     ))}
@@ -1279,14 +1273,14 @@ export function ManageServices() {
                                                                     );
                                                                     setSelectedTagTypes(new Set(associatedTypes));
                                                                 }}
-                                                                className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-white rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100"
+                                                                className="p-1.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100 dark:hover:border-slate-600"
                                                                 title="Edit Tag"
                                                             >
                                                                 <Edit className="h-3.5 w-3.5" />
                                                             </button>
                                                             <button
                                                                 onClick={() => handleDeleteTag(tag.id, tag.name)}
-                                                                className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-white rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100"
+                                                                className="p-1.5 text-slate-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100 dark:hover:border-slate-600"
                                                                 title="Delete Tag"
                                                             >
                                                                 <Trash2 className="h-3.5 w-3.5" />
@@ -1299,12 +1293,12 @@ export function ManageServices() {
                                     </div>
                                 </div>
 
-                                <div className="bg-emerald-50/50 rounded-xl border border-emerald-100 p-6 flex flex-col items-center justify-center text-center">
-                                    <div className="bg-emerald-600/10 p-4 rounded-full mb-4">
-                                        <Tag className="h-8 w-8 text-emerald-600" />
+                                <div className="bg-emerald-50/50 dark:bg-emerald-900/30 rounded-xl border border-emerald-100 dark:border-emerald-900/40 p-6 flex flex-col items-center justify-center text-center">
+                                    <div className="bg-emerald-600/10 dark:bg-emerald-600/20 p-4 rounded-full mb-4">
+                                        <Tag className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
                                     </div>
-                                    <h3 className="font-bold text-slate-900 mb-1">Flexible Classification</h3>
-                                    <p className="text-sm text-slate-500 max-w-[200px]">Tags provide a flexible way to cross-reference services across categories.</p>
+                                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">Flexible Classification</h3>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400 max-w-[200px]">Tags provide a flexible way to cross-reference services across categories.</p>
                                 </div>
                             </div>
                         ) : null}
@@ -1312,31 +1306,31 @@ export function ManageServices() {
                         {/* Environments Tab */}
                         {activeTab === 'environments' && (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-                                    <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                                        <Settings className="h-5 w-5 text-blue-600" />
+                                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                                        <Settings className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                                         Manage Environments
                                     </h2>
 
                                     <div className="space-y-4">
                                         <div className="grid grid-cols-1 gap-2">
                                             {filteredEnvironments.map((env) => (
-                                                <div key={env.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-100 group">
-                                                    <span className="font-medium text-slate-700">{env.name}</span>
+                                                <div key={env.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 group">
+                                                    <span className="font-medium text-slate-700 dark:text-slate-200">{env.name}</span>
                                                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                                         <button
                                                             onClick={() => {
                                                                 setEditingEnv(env);
                                                                 setNewEnvName(env.name);
                                                             }}
-                                                            className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-white rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100"
+                                                            className="p-1.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100 dark:hover:border-slate-600"
                                                             title="Edit Environment"
                                                         >
                                                             <Edit className="h-3.5 w-3.5" />
                                                         </button>
                                                         <button
                                                             onClick={() => handleDeleteEnvironment(env.id, env.name)}
-                                                            className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-white rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100"
+                                                            className="p-1.5 text-slate-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100 dark:hover:border-slate-600"
                                                             title="Delete Environment"
                                                         >
                                                             <Trash2 className="h-3.5 w-3.5" />
@@ -1348,12 +1342,12 @@ export function ManageServices() {
                                     </div>
                                 </div>
 
-                                <div className="bg-purple-50/50 rounded-xl border border-purple-100 p-6 flex flex-col items-center justify-center text-center">
-                                    <div className="bg-purple-600/10 p-4 rounded-full mb-4">
-                                        <Settings className="h-8 w-8 text-purple-600" />
+                                <div className="bg-purple-50/50 dark:bg-purple-900/30 rounded-xl border border-purple-100 dark:border-purple-900/40 p-6 flex flex-col items-center justify-center text-center">
+                                    <div className="bg-purple-600/10 dark:bg-purple-600/20 p-4 rounded-full mb-4">
+                                        <Settings className="h-8 w-8 text-purple-600 dark:text-purple-400" />
                                     </div>
-                                    <h3 className="font-bold text-slate-900 mb-1">Deployment Stages</h3>
-                                    <p className="text-sm text-slate-500 max-w-[200px]">Environments help organize services by deployment stage (Production, Test, Dev, etc.).</p>
+                                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">Deployment Stages</h3>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400 max-w-[200px]">Environments help organize services by deployment stage (Production, Test, Dev, etc.).</p>
                                 </div>
                             </div>
                         )}
@@ -1361,31 +1355,31 @@ export function ManageServices() {
                         {/* Teams Tab */}
                         {activeTab === 'teams' && (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-                                    <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                                        <Users className="h-5 w-5 text-blue-600" />
+                                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                                    <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                                        <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                                         Manage Teams
                                     </h2>
 
                                     <div className="space-y-4">
                                         <div className="grid grid-cols-1 gap-2">
                                             {filteredTeams.map((team) => (
-                                                <div key={team.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-100 group">
-                                                    <span className="font-medium text-slate-700">{team.name}</span>
+                                                <div key={team.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 group">
+                                                    <span className="font-medium text-slate-700 dark:text-slate-200">{team.name}</span>
                                                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                                         <button
                                                             onClick={() => {
                                                                 setEditingTeam(team);
                                                                 setNewTeamName(team.name);
                                                             }}
-                                                            className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-white rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100"
+                                                            className="p-1.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100 dark:hover:border-slate-600"
                                                             title="Edit Team"
                                                         >
                                                             <Edit className="h-3.5 w-3.5" />
                                                         </button>
                                                         <button
                                                             onClick={() => handleDeleteTeam(team.id, team.name)}
-                                                            className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-white rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100"
+                                                            className="p-1.5 text-slate-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-all shadow-sm border border-transparent hover:border-slate-100 dark:hover:border-slate-600"
                                                             title="Delete Team"
                                                         >
                                                             <Trash2 className="h-3.5 w-3.5" />
@@ -1397,12 +1391,12 @@ export function ManageServices() {
                                     </div>
                                 </div>
 
-                                <div className="bg-orange-50/50 rounded-xl border border-orange-100 p-6 flex flex-col items-center justify-center text-center">
-                                    <div className="bg-orange-600/10 p-4 rounded-full mb-4">
-                                        <Users className="h-8 w-8 text-orange-600" />
+                                <div className="bg-orange-50/50 dark:bg-orange-900/30 rounded-xl border border-orange-100 dark:border-orange-900/40 p-6 flex flex-col items-center justify-center text-center">
+                                    <div className="bg-orange-600/10 dark:bg-orange-600/20 p-4 rounded-full mb-4">
+                                        <Users className="h-8 w-8 text-orange-600 dark:text-orange-400" />
                                     </div>
-                                    <h3 className="font-bold text-slate-900 mb-1">Team Organization</h3>
-                                    <p className="text-sm text-slate-500 max-w-[200px]">Teams help organize services by ownership and responsibility.</p>
+                                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">Team Organization</h3>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400 max-w-[200px]">Teams help organize services by ownership and responsibility.</p>
                                 </div>
                             </div>
                         )}
@@ -1412,7 +1406,7 @@ export function ManageServices() {
 
             {/* Floating Bulk Action Bar */}
             {selectedServices.size > 0 && (
-                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-6 animate-in slide-in-from-bottom-8">
+                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-slate-900 dark:bg-slate-800 text-white px-6 py-4 rounded-2xl shadow-2xl border border-slate-700 dark:border-slate-600 flex items-center gap-6 animate-in slide-in-from-bottom-8">
                     <div className="flex items-center gap-3">
                         <div className="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">
                             {selectedServices.size}
@@ -1483,11 +1477,11 @@ export function ManageServices() {
                 >
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-2">Category Name</label>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Category Name</label>
                             <input
                                 type="text"
                                 placeholder="e.g. Monitoring, Databases..."
-                                className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                 value={newCategoryName}
                                 onChange={(e) => setNewCategoryName(e.target.value)}
                                 autoFocus
@@ -1495,12 +1489,12 @@ export function ManageServices() {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-2">
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
                                 Associated Service Types
                             </label>
-                            <div className="border border-slate-200 rounded-lg p-3 max-h-48 overflow-y-auto space-y-2">
+                            <div className="border border-slate-200 dark:border-slate-700 rounded-lg p-3 max-h-48 overflow-y-auto space-y-2">
                                 {serviceTypes.map(type => (
-                                    <label key={type.id} className="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-2 rounded">
+                                    <label key={type.id} className="flex items-center gap-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 p-2 rounded">
                                         <input
                                             type="checkbox"
                                             checked={selectedCategoryTypes.has(type.id)}
@@ -1513,13 +1507,13 @@ export function ManageServices() {
                                                 }
                                                 setSelectedCategoryTypes(newSet);
                                             }}
-                                            className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                                            className="rounded border-slate-300 dark:border-slate-600 dark:bg-slate-800 text-blue-600 focus:ring-blue-500"
                                         />
-                                        <span className="text-sm text-slate-700">{type.name}</span>
+                                        <span className="text-sm text-slate-700 dark:text-slate-300">{type.name}</span>
                                     </label>
                                 ))}
                             </div>
-                            <p className="text-xs text-slate-500 mt-1">
+                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                                 Select which service types can use this category
                             </p>
                         </div>
@@ -1553,11 +1547,11 @@ export function ManageServices() {
                 >
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-2">Type Name</label>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Type Name</label>
                             <input
                                 type="text"
                                 placeholder="e.g. Database, WebLogic..."
-                                className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                 value={newTypeName}
                                 onChange={(e) => setNewTypeName(e.target.value)}
                                 autoFocus
@@ -1592,11 +1586,12 @@ export function ManageServices() {
                 >
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-2">Tag Name</label>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Tag Name</label>
+
                             <input
                                 type="text"
                                 placeholder="e.g. Critical, Internal..."
-                                className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                 value={newTagName}
                                 onChange={(e) => setNewTagName(e.target.value)}
                                 autoFocus
@@ -1604,12 +1599,12 @@ export function ManageServices() {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-2">
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
                                 Associated Service Types
                             </label>
-                            <div className="border border-slate-200 rounded-lg p-3 max-h-48 overflow-y-auto space-y-2">
+                            <div className="border border-slate-200 dark:border-slate-700 rounded-lg p-3 max-h-48 overflow-y-auto space-y-2">
                                 {serviceTypes.map(type => (
-                                    <label key={type.id} className="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-2 rounded">
+                                    <label key={type.id} className="flex items-center gap-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 p-2 rounded">
                                         <input
                                             type="checkbox"
                                             checked={selectedTagTypes.has(type.id)}
@@ -1622,13 +1617,13 @@ export function ManageServices() {
                                                 }
                                                 setSelectedTagTypes(newSet);
                                             }}
-                                            className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                                            className="rounded border-slate-300 dark:border-slate-600 dark:bg-slate-800 text-blue-600 focus:ring-blue-500"
                                         />
-                                        <span className="text-sm text-slate-700">{type.name}</span>
+                                        <span className="text-sm text-slate-700 dark:text-slate-300">{type.name}</span>
                                     </label>
                                 ))}
                             </div>
-                            <p className="text-xs text-slate-500 mt-1">
+                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                                 Select which service types can use this tag
                             </p>
                         </div>
@@ -1662,17 +1657,17 @@ export function ManageServices() {
                 >
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-2">Environment Name</label>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Environment Name</label>
                             <input
                                 type="text"
                                 placeholder="e.g. Staging, QA..."
-                                className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                 value={newEnvName}
                                 onChange={(e) => setNewEnvName(e.target.value)}
                                 autoFocus
                             />
                         </div>
-                        <div className="flex justify-end gap-3 mt-6">
+                        <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-100 dark:border-slate-800">
                             <Button variant="outline" onClick={() => {
                                 setIsAddingEnv(false);
                                 setEditingEnv(null);
@@ -1700,17 +1695,17 @@ export function ManageServices() {
                 >
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-2">Team Name</label>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Team Name</label>
                             <input
                                 type="text"
                                 placeholder="e.g. DevOps, Backend..."
-                                className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                 value={newTeamName}
                                 onChange={(e) => setNewTeamName(e.target.value)}
                                 autoFocus
                             />
                         </div>
-                        <div className="flex justify-end gap-3 mt-6">
+                        <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-100 dark:border-slate-800">
                             <Button variant="outline" onClick={() => {
                                 setIsAddingTeam(false);
                                 setEditingTeam(null);
@@ -1733,9 +1728,9 @@ export function ManageServices() {
             >
                 <div className="space-y-6">
                     <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-2">Field to Update</label>
+                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Field to Update</label>
                         <select
-                            className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                            className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                             value={bulkEditField || ''}
                             onChange={(e) => {
                                 setBulkEditField(e.target.value as any);
@@ -1753,14 +1748,14 @@ export function ManageServices() {
 
                     {bulkEditField && (
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-2">
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
                                 New Value for {bulkEditField === 'service_type_id' ? 'Service Type' :
                                     bulkEditField.charAt(0).toUpperCase() + bulkEditField.slice(1)}
                             </label>
 
                             {bulkEditField === 'category' && (
                                 <select
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                     value={bulkEditValue as string}
                                     onChange={(e) => setBulkEditValue(e.target.value)}
                                 >
@@ -1773,7 +1768,7 @@ export function ManageServices() {
 
                             {bulkEditField === 'service_type_id' && (
                                 <select
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                     value={bulkEditValue as string}
                                     onChange={(e) => setBulkEditValue(e.target.value)}
                                 >
@@ -1786,7 +1781,7 @@ export function ManageServices() {
 
                             {bulkEditField === 'environment' && (
                                 <select
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                     value={bulkEditValue as string}
                                     onChange={(e) => setBulkEditValue(e.target.value)}
                                 >
@@ -1799,7 +1794,7 @@ export function ManageServices() {
 
                             {bulkEditField === 'team' && (
                                 <select
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                     value={bulkEditValue as string}
                                     onChange={(e) => setBulkEditValue(e.target.value)}
                                 >
@@ -1812,12 +1807,12 @@ export function ManageServices() {
 
                             {bulkEditField === 'tags' && (
                                 <div className="space-y-4">
-                                    <div className="flex flex-wrap gap-2 mb-2 p-3 bg-slate-50 rounded-lg border border-slate-200 min-h-[50px]">
+                                    <div className="flex flex-wrap gap-2 mb-2 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 min-h-[50px]">
                                         {(bulkEditValue as string[]).length > 0 ? (
                                             (bulkEditValue as string[]).map(tagId => {
                                                 const tag = tags.find(t => t.id === tagId);
                                                 return tag ? (
-                                                    <span key={tag.id} className="bg-white text-blue-600 px-2 py-1 rounded-md text-sm font-bold border border-blue-100 shadow-sm flex items-center gap-1">
+                                                    <span key={tag.id} className="bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 px-2 py-1 rounded-md text-sm font-bold border border-blue-100 dark:border-blue-900/50 shadow-sm flex items-center gap-1">
                                                         {tag.name}
                                                         <button
                                                             onClick={() => {
@@ -1832,7 +1827,7 @@ export function ManageServices() {
                                                 ) : null;
                                             })
                                         ) : (
-                                            <span className="text-slate-400 text-sm italic">No tags selected</span>
+                                            <span className="text-slate-400 dark:text-slate-500 text-sm italic">No tags selected</span>
                                         )}
                                     </div>
                                     <div className="flex flex-wrap gap-2">
@@ -1843,7 +1838,7 @@ export function ManageServices() {
                                                     const current = bulkEditValue as string[];
                                                     setBulkEditValue([...current, tag.id]);
                                                 }}
-                                                className="bg-white text-slate-600 px-2 py-1 rounded border border-slate-200 text-xs font-medium hover:border-blue-400 hover:text-blue-600 transition-colors"
+                                                className="bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-1 rounded border border-slate-200 dark:border-slate-600 text-xs font-medium hover:border-blue-400 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                                             >
                                                 + {tag.name}
                                             </button>
@@ -1854,7 +1849,7 @@ export function ManageServices() {
                         </div>
                     )}
 
-                    <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-100">
+                    <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-100 dark:border-slate-800">
                         <Button variant="outline" onClick={() => setIsBulkEditModalOpen(false)}>
                             Cancel
                         </Button>

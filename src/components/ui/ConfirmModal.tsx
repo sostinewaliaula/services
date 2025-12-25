@@ -26,9 +26,9 @@ export function ConfirmModal({
     isLoading = false
 }: ConfirmModalProps) {
     const variantColors = {
-        danger: 'bg-red-50 text-red-600 border-red-100',
-        warning: 'bg-amber-50 text-amber-600 border-amber-100',
-        info: 'bg-blue-50 text-blue-600 border-blue-100'
+        danger: 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border-red-100 dark:border-red-900/30',
+        warning: 'bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-900/30',
+        info: 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900/30'
     };
 
     const confirmButtonVariants = {

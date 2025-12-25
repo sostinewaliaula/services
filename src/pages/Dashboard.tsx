@@ -87,7 +87,7 @@ export function Dashboard() {
   }, [environments]);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
       <Header
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
@@ -150,7 +150,7 @@ export function Dashboard() {
               ))}
               {filteredServices.length === 0 && (
                 <div className="col-span-full py-20 text-center">
-                  <p className="text-slate-500 text-lg">No services found matching your criteria.</p>
+                  <p className="text-slate-500 dark:text-slate-400 text-lg">No services found matching your criteria.</p>
                 </div>
               )}
             </div>

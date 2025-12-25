@@ -11,13 +11,13 @@ export function Select({
 }: SelectProps) {
   return <div className="relative">
     {label && (
-      <label className="block text-xs font-medium text-slate-500 mb-1">
+      <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
         {label} {props.required && <span className="text-red-500 ml-0.5">*</span>}
       </label>
     )}
     <div className="relative">
       <select className={`
-            w-full appearance-none rounded-lg border border-slate-300 bg-white px-4 py-1.5 pr-10 text-xs text-slate-900
+            w-full appearance-none rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-1.5 pr-10 text-xs text-slate-900 dark:text-slate-200
             focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500
             disabled:cursor-not-allowed disabled:opacity-50
             ${className}

@@ -76,7 +76,7 @@ export function ServiceDetailModal({
   const CopyButton = ({ text, field }: { text: string, field: string }) => (
     <button
       onClick={() => handleCopy(text, field)}
-      className="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-blue-600 transition-colors ml-2"
+      className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors ml-2"
       title="Copy to clipboard"
     >
       {copiedField === field ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
@@ -139,7 +139,7 @@ export function ServiceDetailModal({
               />
               <div>
                 <div className="flex items-center gap-3 mb-1">
-                  <h2 className="text-2xl font-bold text-slate-900">{service.name}</h2>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">{service.name}</h2>
                   {service.url ? (
                     <Badge variant={getStatusVariant(service.status)}>{service.status}</Badge>
                   ) : (
@@ -147,10 +147,10 @@ export function ServiceDetailModal({
                   )}
                 </div>
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded flex items-center gap-1 border border-blue-100 uppercase tracking-wider">
+                  <span className="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 rounded flex items-center gap-1 border border-blue-100 dark:border-blue-900/30 uppercase tracking-wider">
                     <Tag className="h-3 w-3" /> {service.serviceTypeName || 'Generic'}
                   </span>
-                  <span className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700">
                     {service.category}
                   </span>
                 </div>
@@ -158,7 +158,7 @@ export function ServiceDetailModal({
                 {service.tags && service.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-4">
                     {service.tags.map(tag => (
-                      <span key={tag.id} className="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded-full border border-slate-200">
+                      <span key={tag.id} className="text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-2 py-1 rounded-full border border-slate-200 dark:border-slate-700">
                         #{tag.name}
                       </span>
                     ))}
@@ -214,19 +214,19 @@ export function ServiceDetailModal({
           </div>
 
           {/* Metadata Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-5 bg-slate-50 rounded-xl border border-slate-100">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-5 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
                 <Globe className="h-4 w-4" /> Environment
               </div>
-              <div className="text-slate-900 font-medium">{service.environment}</div>
+              <div className="text-slate-900 dark:text-white font-medium">{service.environment}</div>
             </div>
 
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
                 <Shield className="h-4 w-4" /> Category
               </div>
-              <div className="text-slate-900 font-medium">{service.category}</div>
+              <div className="text-slate-900 dark:text-white font-medium">{service.category}</div>
             </div>
 
 
@@ -234,14 +234,14 @@ export function ServiceDetailModal({
               <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
                 <Users className="h-4 w-4" /> Team
               </div>
-              <div className="text-slate-900 font-medium">{service.team}</div>
+              <div className="text-slate-900 dark:text-white font-medium">{service.team}</div>
             </div>
 
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
                 <Globe className="h-4 w-4" /> IP Address
               </div>
-              <div className="text-slate-900 font-medium font-mono text-sm">
+              <div className="text-slate-900 dark:text-white font-medium font-mono text-sm">
                 {service.ip_address || 'N/A'}{service.port ? `:${service.port}` : ''}
               </div>
             </div>
@@ -249,8 +249,8 @@ export function ServiceDetailModal({
 
           {/* Infrastructure & Login Info Section */}
           {(service.db_connection || service.service_username || service.service_password) && (
-            <div className="p-5 bg-blue-50/50 rounded-xl border border-blue-100 space-y-4">
-              <h3 className="text-sm font-bold text-blue-900 uppercase tracking-wider flex items-center gap-2">
+            <div className="p-5 bg-blue-50/50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-900/30 space-y-4">
+              <h3 className="text-sm font-bold text-blue-900 dark:text-blue-300 uppercase tracking-wider flex items-center gap-2">
                 <Key className="h-4 w-4" /> Access & Database Details
               </h3>
 
@@ -260,8 +260,8 @@ export function ServiceDetailModal({
                     <div className="flex items-center gap-2 text-xs font-medium text-blue-600">
                       <Database className="h-3 w-3" /> Database Connection
                     </div>
-                    <div className="flex items-center justify-between bg-white p-2 border border-blue-100 rounded">
-                      <div className="text-slate-900 font-mono text-xs break-all">
+                    <div className="flex items-center justify-between bg-white dark:bg-slate-800 p-2 border border-blue-100 dark:border-blue-900/50 rounded">
+                      <div className="text-slate-900 dark:text-slate-200 font-mono text-xs break-all">
                         {service.db_connection}
                       </div>
                       <CopyButton text={service.db_connection} field="db_connection" />
@@ -275,7 +275,7 @@ export function ServiceDetailModal({
                       <Database className="h-3 w-3" /> PDB Name
                     </div>
                     <div className="flex items-center justify-between">
-                      <div className="text-slate-900 font-medium text-sm">
+                      <div className="text-slate-900 dark:text-slate-200 font-medium text-sm">
                         {service.pdb_name}
                       </div>
                       <CopyButton text={service.pdb_name} field="pdb_name" />
@@ -286,8 +286,8 @@ export function ServiceDetailModal({
                 {service.db_username && (
                   <div className="space-y-1">
                     <div className="text-xs font-medium text-blue-600">DB Username</div>
-                    <div className="flex items-center justify-between bg-white p-1.5 border border-blue-50 rounded">
-                      <div className="text-slate-900 font-mono text-xs">{service.db_username}</div>
+                    <div className="flex items-center justify-between bg-white dark:bg-slate-800 p-1.5 border border-blue-50 dark:border-blue-900/30 rounded">
+                      <div className="text-slate-900 dark:text-slate-200 font-mono text-xs">{service.db_username}</div>
                       <CopyButton text={service.db_username} field="db_username" />
                     </div>
                   </div>
@@ -323,8 +323,8 @@ export function ServiceDetailModal({
                 {service.service_username && (
                   <div className="space-y-1">
                     <div className="text-xs font-medium text-blue-600">Service Username</div>
-                    <div className="flex items-center justify-between bg-white p-1.5 border border-blue-50 rounded">
-                      <div className="text-slate-900 font-mono text-xs">{service.service_username}</div>
+                    <div className="flex items-center justify-between bg-white dark:bg-slate-800 p-1.5 border border-blue-50 dark:border-blue-900/30 rounded">
+                      <div className="text-slate-900 dark:text-slate-200 font-mono text-xs">{service.service_username}</div>
                       <CopyButton text={service.service_username} field="service_username" />
                     </div>
                   </div>
@@ -362,19 +362,19 @@ export function ServiceDetailModal({
 
           {/* Notes Section */}
           {service.notes && (
-            <div className="bg-amber-50 border border-amber-100 rounded-lg p-4">
+            <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 rounded-lg p-4">
               <div className="flex items-start gap-3">
-                <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+                <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-500 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-sm font-semibold text-amber-900 mb-1">Important Notes</h4>
-                  <p className="text-sm text-amber-800">{service.notes}</p>
+                  <h4 className="text-sm font-semibold text-amber-900 dark:text-amber-200 mb-1">Important Notes</h4>
+                  <p className="text-sm text-amber-800 dark:text-amber-300">{service.notes}</p>
                 </div>
               </div>
             </div>
           )}
 
           {/* Footer Info */}
-          <div className="flex items-center gap-2 text-xs text-slate-400 pt-4 border-t border-slate-100">
+          <div className="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 pt-4 border-t border-slate-100 dark:border-slate-800">
             <Clock className="h-3 w-3" />
             <span>Last updated: {new Date(service.lastUpdated).toLocaleDateString()}</span>
             <span className="mx-1">•</span>

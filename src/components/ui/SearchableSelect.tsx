@@ -75,7 +75,7 @@ export function SearchableSelect({
     return (
         <div className="relative" ref={containerRef}>
             {label && (
-                <label className="block text-xs font-medium text-slate-500 mb-1">
+                <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
                     {label} {required && <span className="text-red-500 ml-0.5">*</span>}
                 </label>
             )}
@@ -83,7 +83,7 @@ export function SearchableSelect({
                 <input
                     type="text"
                     className={`
-                        w-full rounded-lg border border-slate-300 bg-white px-4 py-1.5 pr-10 text-xs text-slate-900
+                        w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-1.5 pr-10 text-xs text-slate-900 dark:text-slate-200
                         focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500
                         disabled:cursor-not-allowed disabled:opacity-50
                         ${className}
@@ -97,7 +97,7 @@ export function SearchableSelect({
                 <button
                     type="button"
                     onClick={() => !disabled && setIsOpen(!isOpen)}
-                    className="absolute inset-y-0 right-0 flex items-center px-3 text-slate-400 hover:text-slate-600"
+                    className="absolute inset-y-0 right-0 flex items-center px-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                     disabled={disabled}
                 >
                     <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
@@ -105,7 +105,7 @@ export function SearchableSelect({
             </div>
 
             {isOpen && !disabled && (
-                <div className="absolute z-50 w-full mt-1 bg-white rounded-lg border border-slate-200 shadow-lg max-h-60 overflow-auto">
+                <div className="absolute z-50 w-full mt-1 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-lg max-h-60 overflow-auto">
                     {filteredOptions.length > 0 ? (
                         <ul className="py-1">
                             {filteredOptions.map((option) => (
@@ -114,7 +114,7 @@ export function SearchableSelect({
                                     onClick={() => handleSelect(option)}
                                     className={`
                                         px-4 py-2 text-xs cursor-pointer flex items-center justify-between
-                                        ${option.id === value ? 'bg-blue-50 text-blue-700 font-medium' : 'text-slate-700 hover:bg-slate-50'}
+                                        ${option.id === value ? 'bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 font-medium' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}
                                     `}
                                 >
                                     <span>{option.name}</span>

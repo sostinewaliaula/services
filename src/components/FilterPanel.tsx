@@ -45,7 +45,7 @@ export function FilterPanel({
   const hasActiveFilters = category !== 'All' || type !== 'All' || environment !== 'All' || showFeaturedOnly || searchTerm !== '';
 
   return (
-    <div className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-[65px] z-20 shadow-sm">
+    <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-[65px] z-20 shadow-sm transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <div className="flex flex-row items-center gap-4">
           {/* Mobile/Sticky Search */}
@@ -54,7 +54,7 @@ export function FilterPanel({
             <input
               type="text"
               placeholder="Search..."
-              className="w-full pl-9 pr-3 py-1.5 rounded-lg border border-slate-200 bg-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 text-sm"
+              className="w-full pl-9 pr-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 text-sm dark:text-slate-200"
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
             />
@@ -109,19 +109,19 @@ export function FilterPanel({
               </Select>
             </div>
 
-            <label className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white cursor-pointer hover:bg-slate-50 transition-colors select-none shrink-0 h-9">
+            <label className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors select-none shrink-0 h-9">
               <input
                 type="checkbox"
                 checked={showFeaturedOnly}
                 onChange={(e) => onFeaturedChange(e.target.checked)}
                 className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 h-3.5 w-3.5"
               />
-              <span className="text-xs font-medium text-slate-700">Featured</span>
+              <span className="text-xs font-medium text-slate-700 dark:text-slate-300">Featured</span>
             </label>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
-            <span className="hidden lg:inline text-xs text-slate-500 font-medium">
+            <span className="hidden lg:inline text-xs text-slate-500 dark:text-slate-400 font-medium">
               {totalResults} {totalResults === 1 ? 'result' : 'results'}
             </span>
 

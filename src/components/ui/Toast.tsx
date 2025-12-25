@@ -39,10 +39,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                         key={toast.id}
                         className={`
                             flex items-center gap-3 px-4 py-3 rounded-xl border shadow-lg animate-in fade-in slide-in-from-right-4 duration-300
-                            ${toast.type === 'success' ? 'bg-emerald-50 border-emerald-100 text-emerald-800' :
-                                toast.type === 'error' ? 'bg-red-50 border-red-100 text-red-800' :
-                                    toast.type === 'warning' ? 'bg-amber-50 border-amber-100 text-amber-800' :
-                                        'bg-white border-slate-200 text-slate-800'}
+                            ${toast.type === 'success' ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-100 dark:border-emerald-900/30 text-emerald-800 dark:text-emerald-400' :
+                                toast.type === 'error' ? 'bg-red-50 dark:bg-red-900/20 border-red-100 dark:border-red-900/30 text-red-800 dark:text-red-400' :
+                                    toast.type === 'warning' ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-100 dark:border-amber-900/30 text-amber-800 dark:text-amber-400' :
+                                        'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200'}
                         `}
                     >
                         <div className="flex-shrink-0">

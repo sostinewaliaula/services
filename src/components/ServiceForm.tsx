@@ -135,7 +135,7 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
 
     const renderTags = () => (
         <div className="space-y-4">
-            <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-orange-500/20 mb-4">
+            <h3 className="text-xs font-extrabold text-slate-900 dark:text-white uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-orange-500/20 dark:border-orange-500/40 mb-4">
                 <TagIcon className="h-4 w-4 text-orange-500" /> Tags
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -145,8 +145,8 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
                         type="button"
                         onClick={() => addTag(tag.name)}
                         className={`px-2 py-0.5 text-[10px] font-bold rounded-full border transition-all ${selectedTags.includes(tag.name)
-                            ? 'bg-blue-50 text-blue-700 border-blue-200 opacity-50'
-                            : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-blue-50'
+                            ? 'bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800 opacity-50'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                             }`}
                     >
                         {tag.name}
@@ -155,7 +155,7 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
             </div>
             <div className="flex flex-wrap gap-2 pt-1">
                 {selectedTags.map(tag => (
-                    <span key={tag} className="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-100">
+                    <span key={tag} className="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-100 dark:border-blue-900/30">
                         {tag}
                         <button type="button" onClick={() => removeTag(tag)} className="ml-1"><X className="h-2 w-2" /></button>
                     </span>
@@ -170,7 +170,7 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Basic Info */}
                     <div className="space-y-4">
-                        <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-blue-500/20 mb-4">
+                        <h3 className="text-xs font-extrabold text-slate-900 dark:text-white uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-blue-500/20 dark:border-blue-500/40 mb-4">
                             <Info className="h-4 w-4 text-blue-500" /> Basic Information
                         </h3>
 
@@ -192,12 +192,12 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
                             </Select>
 
                             <div className="space-y-1">
-                                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide">
+                                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
                                     Service Icon
                                 </label>
                                 <div className="flex items-center gap-3">
                                     <div className="relative group">
-                                        <div className="h-12 w-12 rounded-xl bg-slate-50 border-2 border-dashed border-slate-200 flex items-center justify-center overflow-hidden transition-colors group-hover:border-blue-400">
+                                        <div className="h-12 w-12 rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-dashed border-slate-200 dark:border-slate-700 flex items-center justify-center overflow-hidden transition-colors group-hover:border-blue-400">
                                             {formData.logo_url ? (
                                                 <img
                                                     src={(formData.logo_url.startsWith('http') || formData.logo_url.startsWith('data:')) ? formData.logo_url : `http://localhost:5000${formData.logo_url}`}
@@ -205,10 +205,10 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
                                                     className="w-full h-full object-cover"
                                                 />
                                             ) : (
-                                                <ImageIcon className="h-5 w-5 text-slate-400" />
+                                                <ImageIcon className="h-5 w-5 text-slate-400 dark:text-slate-500" />
                                             )}
                                             {isUploading && (
-                                                <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
+                                                <div className="absolute inset-0 bg-white/80 dark:bg-slate-900/80 flex items-center justify-center">
                                                     <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                                                 </div>
                                             )}
@@ -222,16 +222,16 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
                                         />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="text-[10px] text-slate-500 leading-tight">
+                                        <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight">
                                             {formData.logo_url ? 'Click to change icon' : 'Upload PNG, JPG or SVG'}
                                         </p>
-                                        <p className="text-[10px] text-slate-400">Max size 5MB</p>
+                                        <p className="text-[10px] text-slate-400 dark:text-slate-500">Max size 5MB</p>
                                     </div>
                                     {formData.logo_url && (
                                         <button
                                             type="button"
                                             onClick={() => setFormData(prev => ({ ...prev, logo_url: '' }))}
-                                            className="p-1 hover:bg-red-50 text-red-400 rounded transition-colors"
+                                            className="p-1 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-400 rounded transition-colors"
                                         >
                                             <X className="h-3 w-3" />
                                         </button>
@@ -254,7 +254,7 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
                         {/* Database Info */}
                         {showDatabaseFields && (
                             <div className="space-y-4">
-                                <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-indigo-500/20 mb-4">
+                                <h3 className="text-xs font-extrabold text-slate-900 dark:text-white uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-indigo-500/20 dark:border-indigo-500/40 mb-4">
                                     <Database className="h-4 w-4 text-indigo-500" /> Database Info
                                 </h3>
                                 <div className="grid grid-cols-2 gap-3">
@@ -307,7 +307,7 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
 
                     {/* Infrastructure */}
                     <div className="space-y-4">
-                        <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-emerald-500/20 mb-4">
+                        <h3 className="text-xs font-extrabold text-slate-900 dark:text-white uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-emerald-500/20 dark:border-emerald-500/40 mb-4">
                             <Globe className="h-4 w-4 text-emerald-500" /> Infrastructure Details
                         </h3>
 
@@ -358,19 +358,19 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
                             </>
                         )}
                         {isDatabase && (
-                            <div className="pt-4 border-t border-slate-100 mt-4">
+                            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 mt-4">
                                 {renderTags()}
                             </div>
                         )}
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-slate-100 pt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-slate-100 dark:border-slate-800 pt-6">
 
                     {/* Credentials - WebLogic only */}
                     {isWebLogic ? (
                         <div className="space-y-4">
-                            <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-amber-500/20 mb-4">
+                            <h3 className="text-xs font-extrabold text-slate-900 dark:text-white uppercase tracking-widest flex items-center gap-2 pb-2 border-b-2 border-amber-500/20 dark:border-amber-500/40 mb-4">
                                 <Key className="h-4 w-4 text-amber-500" /> Credentials
                             </h3>
                             <div className="grid grid-cols-2 gap-3">
@@ -409,7 +409,7 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
                 </div>
             </div>
 
-            <div className="sticky bottom-0 bg-slate-50 px-6 py-4 border-t border-slate-200 flex justify-end gap-3 z-10 mt-auto">
+            <div className="sticky bottom-0 bg-slate-50 dark:bg-slate-900 px-6 py-4 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-3 z-10 mt-auto">
                 <Button type="button" variant="ghost" onClick={onCancel}>Cancel</Button>
                 <Button type="submit" isLoading={isLoading}>{initialData?.id ? 'Update Service' : 'Create Service'}</Button>
             </div>

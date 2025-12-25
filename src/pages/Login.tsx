@@ -26,25 +26,25 @@ export const Login: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-            <div className="max-w-md w-full bg-white rounded-2xl shadow-xl border border-slate-200 p-8">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4 transition-colors duration-300">
+            <div className="max-w-md w-full bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 p-8">
                 <div className="flex flex-col items-center text-center mb-8">
-                    <div className="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                        <Lock className="h-8 w-8 text-blue-600" />
+                    <div className="h-16 w-16 bg-blue-100 dark:bg-blue-900/40 rounded-full flex items-center justify-center mb-4">
+                        <Lock className="h-8 w-8 text-blue-600 dark:text-blue-400" />
                     </div>
-                    <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Admin Portal</h1>
-                    <p className="text-slate-500 mt-2">Enter the admin password to manage services</p>
+                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Admin Portal</h1>
+                    <p className="text-slate-500 dark:text-slate-400 mt-2">Enter the admin password to manage services</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                        <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                             <Shield className="h-4 w-4" /> Admin Password
                         </label>
                         <input
                             type="password"
                             placeholder="••••••••"
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all placeholder:text-slate-300"
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all placeholder:text-slate-300 dark:placeholder:text-slate-600"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             autoFocus
@@ -52,7 +52,7 @@ export const Login: React.FC = () => {
                     </div>
 
                     {error && (
-                        <div className="flex items-center gap-2 p-3 rounded-lg bg-red-50 border border-red-100 text-red-600 text-sm">
+                        <div className="flex items-center gap-2 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/30 text-red-600 dark:text-red-400 text-sm">
                             <AlertCircle className="h-4 w-4" />
                             {error}
                         </div>
@@ -67,7 +67,7 @@ export const Login: React.FC = () => {
                     </Button>
                 </form>
 
-                <p className="mt-8 text-center text-xs text-slate-400">
+                <p className="mt-8 text-center text-xs text-slate-400 dark:text-slate-600">
                     Protected System • Restricted Access Only
                 </p>
             </div>
