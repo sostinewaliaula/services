@@ -3,7 +3,7 @@ import { Service } from '../types/service';
 import { Card } from './ui/Card';
 import { Badge } from './ui/Badge';
 import { ServiceIcon } from './ServiceIcon';
-import { Database, Server, Users, Package, Ticket, CheckSquare, Globe, Hash, Link as LinkIcon, Copy, Check, ExternalLink, Key, Tag, Download } from 'lucide-react';
+import { Database, Users, Link as LinkIcon, Copy, Check, ExternalLink, Key, Tag, Download, Globe, Hash } from 'lucide-react';
 import { downloadServiceDetails } from '../utils/downloadService';
 
 interface ServiceCardProps {
@@ -62,7 +62,7 @@ export function ServiceCard({ service, onClick }: ServiceCardProps) {
   };
 
   return (
-    <Card hoverEffect={true} onClick={() => onClick(service)} className="h-full flex flex-col group">
+    <Card hoverEffect={true} onClick={() => onClick(service)} className="h-full flex flex-col group service-card">
       <div className="p-4 flex flex-col h-full">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">

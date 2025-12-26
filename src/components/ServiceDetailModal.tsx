@@ -182,7 +182,7 @@ export function ServiceDetailModal({
           </div>
 
           {/* Quick Actions */}
-          <div className="flex flex-wrap gap-3">
+          <div id="modal-actions" className="flex flex-wrap gap-3">
             {service.url && (
               <a href={service.url} target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-none">
                 <Button className="w-full sm:w-auto gap-2">
@@ -214,7 +214,7 @@ export function ServiceDetailModal({
           </div>
 
           {/* Metadata Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-5 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
+          <div id="modal-general-info" className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-5 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
                 <Globe className="h-4 w-4" /> Environment
@@ -249,7 +249,7 @@ export function ServiceDetailModal({
 
           {/* Infrastructure & Login Info Section */}
           {(service.db_connection || service.service_username || service.service_password) && (
-            <div className="p-5 bg-blue-50/50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-900/30 space-y-4">
+            <div id="modal-credentials" className="p-5 bg-blue-50/50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-900/30 space-y-4">
               <h3 className="text-sm font-bold text-blue-900 dark:text-blue-300 uppercase tracking-wider flex items-center gap-2">
                 <Key className="h-4 w-4" /> Access & Database Details
               </h3>
@@ -381,7 +381,8 @@ export function ServiceDetailModal({
             <span>ID: {service.id}</span>
           </div>
         </div>
-      )}
-    </Modal>
+      )
+      }
+    </Modal >
   );
 }

@@ -45,7 +45,7 @@ export function FilterPanel({
   const hasActiveFilters = category !== 'All' || type !== 'All' || environment !== 'All' || showFeaturedOnly || searchTerm !== '';
 
   return (
-    <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-[65px] z-20 shadow-sm transition-colors duration-300">
+    <div id="search-filter-area" className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-[65px] z-20 shadow-sm transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <div className="flex flex-row items-center gap-4">
           {/* Mobile/Sticky Search */}

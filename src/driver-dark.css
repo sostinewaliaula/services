@@ -1,0 +1,60 @@
+/* Driver.js Dark Mode Overrides */
+.dark .driver-popover {
+    background-color: #1e293b;
+    color: #f8fafc;
+    border: 1px solid #334155;
+    z-index: 100000 !important;
+}
+
+.dark .driver-popover-title {
+    color: #fff;
+    font-weight: 700;
+}
+
+.dark .driver-popover-description {
+    color: #cbd5e1;
+}
+
+.dark .driver-popover-footer button {
+    background-color: #3b82f6;
+    color: #fff;
+    text-shadow: none;
+    border: none;
+}
+
+.dark .driver-popover-footer button:hover {
+    background-color: #2563eb;
+}
+
+.dark .driver-popover-footer .driver-prev-btn {
+    background-color: transparent;
+    color: #94a3b8;
+    border: 1px solid #334155;
+}
+
+.dark .driver-popover-footer .driver-prev-btn:hover {
+    background-color: #334155;
+    color: #fff;
+}
+
+/* Ensure progress text is visible */
+.dark .driver-popover-progress-text {
+    color: #94a3b8;
+}
+
+/* Arrow color match */
+.dark .driver-popover-arrow-side-left.driver-popover-arrow {
+    border-left-color: #1e293b;
+}
+
+.dark .driver-popover-arrow-side-right.driver-popover-arrow {
+    border-right-color: #1e293b;
+}
+
+.dark .driver-popover-arrow-side-top.driver-popover-arrow {
+    border-top-color: #1e293b;
+}
+
+.dark .driver-popover-arrow-side-bottom.driver-popover-arrow {
+    border-bottom-color: #1e293b;
+}

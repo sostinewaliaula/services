@@ -10,7 +10,7 @@ export function FeaturedServices({
   onServiceClick
 }: FeaturedServicesProps) {
   if (services.length === 0) return null;
-  return <section className="py-8">
+  return <section id="featured-section" className="py-8">
     <div className="flex items-center gap-2 mb-6">
       <div className="p-1.5 bg-amber-100 dark:bg-amber-900/40 rounded-md">
         <Star className="h-5 w-5 text-amber-600 dark:text-amber-500 fill-amber-600 dark:fill-amber-500" />

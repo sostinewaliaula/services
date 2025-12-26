@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { api } from '../api/client';
 import { Service, ServiceCategory, ServiceCategoryData, ServiceTypeData, EnvironmentData, TeamData } from '../types/service';
 import { Button } from '../components/ui/Button';
@@ -8,6 +8,8 @@ import { Header } from '../components/Header';
 import { FilterPanel } from '../components/FilterPanel';
 import { ServiceDetailModal } from '../components/ServiceDetailModal';
 import { Loader2 } from 'lucide-react';
+
+import { useTour } from '../hooks/useTour';
 
 export function Dashboard() {
   const [services, setServices] = useState<Service[]>([]);
@@ -24,6 +26,23 @@ export function Dashboard() {
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+  // Tour integration: Function to open the first regular service for the demo
+  const openDemoModal = useCallback(() => {
+    // Find the first non-featured service to show (matching what's in the grid)
+    const demoService = services.find(s => !s.isFeatured);
+    if (demoService) {
+      setSelectedService(demoService);
+      setIsDetailModalOpen(true);
+    }
+  }, [services]);
+
+  const closeDemoModal = useCallback(() => {
+    setIsDetailModalOpen(false);
+    setSelectedService(null);
+  }, []);
+
+  useTour(openDemoModal, closeDemoModal);
 
   useEffect(() => {
     fetchData();
@@ -140,7 +159,7 @@ export function Dashboard() {
               onServiceClick={handleServiceClick}
             />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4">
+            <div id="service-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4">
               {filteredServices.filter(s => !s.isFeatured).map(service => (
                 <ServiceCard
                   key={service.id}

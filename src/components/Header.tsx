@@ -26,7 +26,7 @@ export function Header({ searchTerm, onSearchChange, actionButton, searchPlaceho
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
                 <div className="flex items-center justify-between gap-4">
                     {/* Logo & Info */}
-                    <Link to="/" className="flex items-center gap-3 shrink-0 hover:opacity-80 transition-opacity">
+                    <Link to="/" id="header-logo" className="flex items-center gap-3 shrink-0 hover:opacity-80 transition-opacity">
                         <div className="flex items-center justify-center">
                             <img src={logo} alt="Service Hub Logo" className="h-10 w-auto object-contain" />
                         </div>
@@ -41,7 +41,7 @@ export function Header({ searchTerm, onSearchChange, actionButton, searchPlaceho
                     </Link>
 
                     <div className="flex-1 max-w-lg hidden md:block">
-                        <div className="relative group">
+                        <div id="header-search" className="relative group">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
                             <input
                                 type="text"
@@ -64,7 +64,9 @@ export function Header({ searchTerm, onSearchChange, actionButton, searchPlaceho
 
                     {/* Actions */}
                     <div className="flex items-center gap-3 shrink-0">
-                        <ThemeToggle />
+                        <div id="theme-toggle-container">
+                            <ThemeToggle />
+                        </div>
 
                         {actionButton && (
                             <Button size="sm" onClick={actionButton.onClick} className="gap-2 bg-blue-600 hover:bg-blue-700">
