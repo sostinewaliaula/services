@@ -624,7 +624,10 @@ export function ManageServices() {
     const filteredAndSortedServices = useMemo(() => {
         const result = services.filter(service => {
             const matchesSearch = (service.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
-                (service.owner?.toLowerCase() || '').includes(searchTerm.toLowerCase());
+                (service.owner?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+                (service.url?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+                (service.ip_address?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+                (service.port?.toString() || '').includes(searchTerm.toLowerCase());
             const matchesCategory = selectedCategory === 'All' || service.category === selectedCategory;
             const matchesType = selectedType === 'All' || service.serviceTypeName === selectedType;
             const matchesEnv = selectedEnv === 'All' || service.environment === selectedEnv;
