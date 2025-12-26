@@ -248,6 +248,24 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
                                 disabled={!formData.service_type_id}
                                 placeholder={formData.service_type_id ? 'Select Category' : 'Choose Type First'}
                             />
+
+                            <div className="flex items-center justify-between p-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
+                                <div className="space-y-0.5">
+                                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Featured</label>
+                                    <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight">Pin to top</p>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setFormData(prev => ({ ...prev, isFeatured: !prev.isFeatured }))}
+                                    className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${formData.isFeatured ? 'bg-blue-600' : 'bg-slate-200 dark:bg-slate-700'
+                                        }`}
+                                >
+                                    <span
+                                        className={`${formData.isFeatured ? 'translate-x-[18px]' : 'translate-x-[2px]'
+                                            } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+                                    />
+                                </button>
+                            </div>
                         </div>
 
 
