@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import pool from '../db';
+import { handleDBError } from '../utils/errorHandler';
 
 const router = Router();
 
@@ -22,8 +23,7 @@ router.post('/', async (req, res) => {
         const [result]: any = await pool.query('INSERT INTO categories (name) VALUES (?)', [name]);
         res.status(201).json({ id: result.insertId });
     } catch (error) {
-        console.error('Error creating category:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        handleDBError(res, error, 'Category');
     }
 });
 
@@ -36,8 +36,7 @@ router.put('/:id', async (req, res) => {
         await pool.query('UPDATE categories SET name = ? WHERE id = ?', [name, id]);
         res.json({ message: 'Category updated successfully' });
     } catch (error) {
-        console.error('Error updating category:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        handleDBError(res, error, 'Category');
     }
 });
 

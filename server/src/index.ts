@@ -83,8 +83,10 @@ app.get('/', (req, res) => {
 // Start Uptime Monitor
 startUptimeMonitor();
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+const host = process.env.HOST || '0.0.0.0';
+
+app.listen(Number(port), host, () => {
+    console.log(`Server is running on http://${host}:${port}`);
 });
 
 // Force restart

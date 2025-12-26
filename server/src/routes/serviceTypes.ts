@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import pool from '../db';
+import { handleDBError } from '../utils/errorHandler';
 
 const router = Router();
 
@@ -22,8 +23,7 @@ router.post('/', async (req, res) => {
         const [result]: any = await pool.query('INSERT INTO service_types (name) VALUES (?)', [name]);
         res.status(201).json({ id: result.insertId, name });
     } catch (error) {
-        console.error('Error creating service type:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        handleDBError(res, error, 'Service Type');
     }
 });
 
@@ -36,8 +36,7 @@ router.put('/:id', async (req, res) => {
         await pool.query('UPDATE service_types SET name = ? WHERE id = ?', [name, id]);
         res.json({ id, name });
     } catch (error) {
-        console.error('Error updating service type:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        handleDBError(res, error, 'Service Type');
     }
 });
 

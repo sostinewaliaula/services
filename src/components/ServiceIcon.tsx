@@ -1,4 +1,5 @@
 import React from 'react';
+import { API_BASE_URL } from '../api/client';
 import * as LucideIcons from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 
@@ -78,7 +79,7 @@ export const ServiceIcon: React.FC<ServiceIconProps> = ({
         <div className={`shrink-0 flex items-center justify-center rounded-xl overflow-hidden shadow-sm border border-white/20 select-none ${sizeClasses[size]} ${className}`}>
             {logoUrl ? (
                 <img
-                    src={(logoUrl.startsWith('http') || logoUrl.startsWith('data:')) ? logoUrl : `http://localhost:5000${logoUrl}`}
+                    src={(logoUrl.startsWith('http') || logoUrl.startsWith('data:')) ? logoUrl : `${API_BASE_URL.replace('/api', '')}${logoUrl}`}
                     alt={name}
                     className="w-full h-full object-cover"
                     onError={(e) => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Service, ServiceCategoryData, ServiceTypeData, EnvironmentData, TeamData, Tag } from '../types/service';
-import { api } from '../api/client';
+import { api, API_BASE_URL } from '../api/client';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import { Select } from './ui/Select';
@@ -200,7 +200,7 @@ export function ServiceForm({ initialData, categories, serviceTypes = [], enviro
                                         <div className="h-12 w-12 rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-dashed border-slate-200 dark:border-slate-700 flex items-center justify-center overflow-hidden transition-colors group-hover:border-blue-400">
                                             {formData.logo_url ? (
                                                 <img
-                                                    src={(formData.logo_url.startsWith('http') || formData.logo_url.startsWith('data:')) ? formData.logo_url : `http://localhost:5000${formData.logo_url}`}
+                                                    src={(formData.logo_url.startsWith('http') || formData.logo_url.startsWith('data:')) ? formData.logo_url : `${API_BASE_URL.replace('/api', '')}${formData.logo_url}`}
                                                     alt="Preview"
                                                     className="w-full h-full object-cover"
                                                 />

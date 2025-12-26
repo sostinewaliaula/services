@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 
+import { API_BASE_URL } from '../api/client';
+
 interface AuthContextType {
     isAuthenticated: boolean;
     login: (password: string) => Promise<boolean>;
@@ -15,7 +17,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const login = async (password: string): Promise<boolean> => {
         try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
+            const response = await fetch(`${API_BASE_URL}/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password }),

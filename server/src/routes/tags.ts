@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import pool from '../db';
+import { handleDBError } from '../utils/errorHandler';
 
 const router = Router();
 
@@ -23,8 +24,7 @@ router.post('/', async (req, res) => {
         const id = result.insertId || (await (pool.query('SELECT id FROM tags WHERE name = ?', [name]) as any))[0][0].id;
         res.status(201).json({ id, name });
     } catch (error) {
-        console.error('Error creating tag:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        handleDBError(res, error, 'Tag');
     }
 });
 
@@ -37,8 +37,7 @@ router.put('/:id', async (req, res) => {
         await pool.query('UPDATE tags SET name = ? WHERE id = ?', [name, id]);
         res.json({ id, name });
     } catch (error) {
-        console.error('Error updating tag:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        handleDBError(res, error, 'Tag');
     }
 });
 
